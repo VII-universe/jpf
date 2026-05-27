@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JPF – Interim Management | Přebíráme odpovědnost</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #080f20;
+  --ink2: #0c1628;
+  --blue: #223c7e;
+  --blue-dark: #1a2f63;
+  --blue-deep: #0f1d3d;
+  --orange: #ea5b0c;
+  --orange-h: #d04f0a;
+  --off: #f6f8fc;
+  --tx: #1a1a2e;
+  --tx2: #4a5568;
+  --white: #ffffff;
+  --grad-text: linear-gradient(135deg, #4d7de8, #ea5b0c);
+  --font-head: 'Lexend', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--ink);
+  color: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; }
+em { font-style: normal; }
+
+/* ===== UTILITY ===== */
+.grad-text {
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.section-label {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 14px;
+}
+.section-label-light {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 14px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: 10px;
+  padding: 14px 28px;
+  cursor: pointer;
+  border: none;
+  transition: all .22s ease;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--orange);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--orange-h); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(234,91,12,.38); }
+.btn-ghost-dark {
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.8);
+  border: 1px solid rgba(255,255,255,.14);
+}
+.btn-ghost-dark:hover { background: rgba(255,255,255,.12); transform: translateY(-2px); }
+.btn-blue {
+  background: var(--blue);
+  color: #fff;
+}
+.btn-blue:hover { background: var(--blue-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(34,60,126,.4); }
+.btn-lg { padding: 18px 40px; font-size: 17px; border-radius: 12px; }
+
+/* ===== REVEAL SYSTEM ===== */
+.rv, .rv-left, .rv-right, .rv-scale {
+  opacity: 0;
+  transition: opacity .65s ease, transform .65s ease;
+}
+.rv { transform: translateY(44px); }
+.rv-left { transform: translateX(-50px); }
+.rv-right { transform: translateX(50px); }
+.rv-scale { transform: scale(.9); }
+.rv.visible, .rv-left.visible, .rv-right.visible, .rv-scale.visible {
+  opacity: 1;
+  transform: none;
+}
+.d1 { transition-delay: .08s; }
+.d2 { transition-delay: .16s; }
+.d3 { transition-delay: .24s; }
+.d4 { transition-delay: .32s; }
+.d5 { transition-delay: .40s; }
+.d6 { transition-delay: .48s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rv, .rv-left, .rv-right, .rv-scale { opacity: 1; transform: none; transition: none; }
+}
+
+/* ===== HEADER ===== */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 999;
+  padding: 18px 0;
+  transition: background .3s ease, backdrop-filter .3s ease, box-shadow .3s ease;
+}
+header.scrolled {
+  background: rgba(8,15,32,.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06);
+}
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-logo svg { width: 140px; height: auto; display: block; }
+nav { display: flex; align-items: center; gap: 32px; }
+nav a {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,.65);
+  transition: color .2s;
+}
+nav a:hover { color: #fff; }
+.header-cta { margin-left: 12px; }
+
+/* ===== HERO ===== */
+.sec-hero {
+  position: relative;
+  min-height: 100vh;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 120px 0 80px;
+}
+
+/* Dot grid */
+.hero-dotgrid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.09) 1px, transparent 1px);
+  background-size: 36px 36px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 80%);
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 80%);
+  pointer-events: none;
+}
+
+/* Orbs */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  opacity: .55;
+}
+.orb-1 {
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, rgba(34,60,126,.8) 0%, rgba(15,29,61,.2) 70%);
+  top: -120px; left: -120px;
+  animation: orbFloat1 14s ease-in-out infinite;
+}
+.orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(234,91,12,.5) 0%, rgba(234,91,12,.05) 70%);
+  top: 60px; right: -80px;
+  animation: orbFloat2 10s ease-in-out infinite;
+}
+.orb-3 {
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, rgba(77,125,232,.4) 0%, transparent 70%);
+  bottom: -60px; left: 40%;
+  animation: orbFloat3 16s ease-in-out infinite;
+}
+@keyframes orbFloat1 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-40px) scale(1.06); }
+}
+@keyframes orbFloat2 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(30px) scale(.94); }
+}
+@keyframes orbFloat3 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  33% { transform: translateY(-20px) scale(1.04); }
+  66% { transform: translateY(20px) scale(.97); }
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-label {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 22px;
+}
+
+.hero-h1 {
+  font-family: var(--font-head);
+  font-size: clamp(42px, 5.5vw, 72px);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 10px;
+  color: #fff;
+}
+.hero-h1-line2 {
+  font-family: var(--font-head);
+  font-size: clamp(38px, 5vw, 66px);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 26px;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+.hero-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--orange), transparent);
+  margin-bottom: 36px;
+}
+
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* Pain card */
+.hero-card-wrap {
+  position: relative;
+  border-radius: 20px;
+}
+.hero-card-wrap > svg.neon-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 20px;
+}
+.hero-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px;
+  padding: 36px 32px;
+  backdrop-filter: blur(12px);
+}
+.card-tag {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--orange);
+  background: rgba(234,91,12,.1);
+  border: 1px solid rgba(234,91,12,.2);
+  border-radius: 100px;
+  padding: 5px 14px;
+  margin-bottom: 20px;
+}
+.card-question {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #fff;
+  margin-bottom: 24px;
+}
+.card-bullets { list-style: none; margin-bottom: 24px; }
+.card-bullets li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 14px;
+  color: rgba(255,255,255,.6);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+.card-bullets li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--orange);
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.card-footer {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding-top: 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,.35);
+  font-family: var(--font-head);
+}
+
+/* Neon animation */
+@keyframes neonTravel {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: var(--neon-perimeter); }
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: .4;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+.scroll-indicator span {
+  font-family: var(--font-head);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+}
+.scroll-arrow {
+  width: 20px;
+  height: 20px;
+  border-right: 2px solid rgba(255,255,255,.5);
+  border-bottom: 2px solid rgba(255,255,255,.5);
+  transform: rotate(45deg);
+}
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ===== SOLUTION SECTION ===== */
+.sec-solution {
+  background: var(--ink2);
+  padding: 100px 0;
+}
+.sec-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.sec-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.sec-h2 {
+  font-family: var(--font-head);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #fff;
+}
+.sec-h2 em {
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Solution list */
+.sol-list { list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 40px; }
+.sol-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 72px 1fr 56px;
+  align-items: center;
+  gap: 0 28px;
+  padding: 28px 32px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 18px;
+  transition: background .25s, transform .25s, border-color .25s;
+  overflow: hidden;
+}
+.sol-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--orange);
+  border-radius: 0 2px 2px 0;
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform .25s ease;
+}
+.sol-item:hover {
+  background: rgba(255,255,255,.055);
+  border-color: rgba(255,255,255,.12);
+  transform: translateX(6px);
+}
+.sol-item:hover::before { transform: scaleY(1); }
+.sol-num {
+  font-family: var(--font-head);
+  font-size: 56px;
+  font-weight: 900;
+  color: rgba(255,255,255,.06);
+  line-height: 1;
+  transition: color .25s;
+  user-select: none;
+}
+.sol-item:hover .sol-num { color: rgba(234,91,12,.18); }
+.sol-body { }
+.sol-area-name {
+  font-family: var(--font-head);
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.sol-result-tag {
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 8px;
+}
+.sol-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,.45);
+  line-height: 1.6;
+}
+.sol-icon-box {
+  width: 48px;
+  height: 48px;
+  background: rgba(34,60,126,.25);
+  border: 1px solid rgba(34,60,126,.4);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .25s, transform .25s;
+  flex-shrink: 0;
+}
+.sol-item:hover .sol-icon-box {
+  background: rgba(34,60,126,.45);
+  transform: scale(1.08);
+}
+.sol-icon-box svg { width: 22px; height: 22px; stroke: #4d7de8; }
+
+/* Sol extras */
+.sol-extras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.sol-extra-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 100px;
+  padding: 10px 18px;
+  color: rgba(255,255,255,.6);
+  font-size: 14px;
+  font-family: var(--font-head);
+  font-weight: 500;
+  transition: all .22s;
+  cursor: default;
+}
+.sol-extra-tag:hover {
+  background: rgba(234,91,12,.08);
+  border-color: rgba(234,91,12,.25);
+  color: rgba(255,255,255,.85);
+  transform: translateY(-2px);
+}
+.sol-extra-tag svg { width: 16px; height: 16px; stroke: var(--orange); flex-shrink: 0; }
+
+/* ===== MARQUEE ===== */
+.sec-marquee {
+  overflow: hidden;
+  background: linear-gradient(90deg, var(--orange), var(--orange-h), var(--orange));
+  padding: 18px 0;
+}
+.marquee-track {
+  display: flex;
+  white-space: nowrap;
+  animation: marqueeScroll 24s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-right: 24px;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #fff;
+  flex-shrink: 0;
+}
+.marquee-dot {
+  width: 5px;
+  height: 5px;
+  background: rgba(255,255,255,.5);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ===== BANNER / QUOTE SECTION ===== */
+.sec-banner {
+  background: var(--off);
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+.sec-banner::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(ellipse at center, rgba(34,60,126,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.sec-banner::after {
+  content: '';
+  position: absolute;
+  top: 20%; right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(ellipse at center, rgba(234,91,12,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.banner-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 32px;
+  text-align: center;
+}
+.banner-h {
+  font-family: var(--font-head);
+  font-size: clamp(28px, 4.5vw, 52px);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--tx);
+  margin-bottom: 20px;
+}
+.banner-h em { color: var(--blue); }
+.banner-sub {
+  font-size: 19px;
+  color: var(--tx2);
+  font-weight: 400;
+}
+
+/* ===== PROMISE SECTION ===== */
+.sec-promise {
+  background: var(--off);
+  padding: 100px 0;
+  border-top: 1px solid rgba(0,0,0,.06);
+}
+.promise-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.promise-left .section-label { color: var(--orange); }
+.promise-h2 {
+  font-family: var(--font-head);
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--tx);
+  margin-bottom: 22px;
+}
+.promise-h2 em { color: var(--blue); }
+.promise-p {
+  font-size: 16px;
+  color: var(--tx2);
+  line-height: 1.75;
+}
+.promise-p strong { color: var(--tx); }
+.promise-card {
+  background: linear-gradient(145deg, #0f1d3d, #223c7e);
+  border-radius: 18px;
+  padding: 40px;
+  color: #fff;
+}
+.promise-card-h {
+  font-family: var(--font-head);
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #fff;
+  margin-bottom: 14px;
+}
+.promise-card-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,.55);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+.promise-card-sub strong { color: rgba(255,255,255,.8); }
+.diff-items { display: flex; flex-direction: column; gap: 16px; }
+.diff-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.diff-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(234,91,12,.15);
+  border: 1px solid rgba(234,91,12,.25);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.diff-icon svg { width: 16px; height: 16px; stroke: var(--orange); }
+.diff-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255,255,255,.85);
+  padding-top: 7px;
+}
+
+/* ===== QUIZ SECTION ===== */
+.sec-quiz {
+  background: var(--ink);
+  padding: 100px 0;
+}
+.quiz-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.quiz-header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+.quiz-header .sec-h2 { margin-bottom: 14px; }
+.quiz-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,.45);
+}
+
+/* Stepper */
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 44px;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.step-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.18);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,.25);
+  transition: all .3s;
+}
+.step.active .step-dot {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+.step.done .step-dot {
+  border-color: var(--orange);
+  background: var(--orange);
+  color: #fff;
+}
+.step-label {
+  font-family: var(--font-head);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.25);
+  transition: color .3s;
+  white-space: nowrap;
+}
+.step.active .step-label { color: rgba(255,255,255,.65); }
+.step.done .step-label { color: rgba(234,91,12,.7); }
+.step-bar {
+  height: 2px;
+  width: 80px;
+  background: rgba(255,255,255,.08);
+  margin: 0 4px;
+  margin-bottom: 20px;
+  border-radius: 2px;
+  transition: background .3s;
+}
+.step-bar.filled { background: var(--orange); }
+
+/* Quiz slides */
+.quiz-slides-wrap { position: relative; min-height: 300px; }
+.quiz-slide {
+  display: none;
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity .44s ease, transform .44s ease;
+}
+.quiz-slide.active {
+  display: block;
+  opacity: 1;
+  transform: translateX(0);
+}
+.quiz-slide.exiting {
+  display: block;
+  opacity: 0;
+  transform: translateX(-40px);
+  pointer-events: none;
+}
+.slide-label {
+  text-align: center;
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.25);
+  margin-bottom: 24px;
+}
+.quiz-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+.quiz-card {
+  background: rgba(255,255,255,.04);
+  border: 2px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all .3s;
+}
+.quiz-card.answered-ano {
+  border-color: var(--orange);
+  background: rgba(234,91,12,.06);
+  box-shadow: 0 0 24px rgba(234,91,12,.18);
+}
+.quiz-q {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255,255,255,.8);
+  line-height: 1.4;
+  margin-bottom: 18px;
+}
+.quiz-btns { display: flex; gap: 8px; }
+.quiz-btn {
+  flex: 1;
+  padding: 9px 0;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  color: rgba(255,255,255,.5);
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .22s;
+}
+.quiz-btn:hover { background: rgba(255,255,255,.09); color: #fff; }
+.quiz-card.answered-ano .quiz-btn-ano {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #fff;
+}
+.quiz-card.answered-ne .quiz-btn-ne {
+  background: rgba(255,255,255,.15);
+  border-color: rgba(255,255,255,.25);
+  color: #fff;
+}
+
+.quiz-next-wrap { text-align: center; }
+.quiz-next {
+  padding: 13px 36px;
+  font-size: 15px;
+  border-radius: 10px;
+}
+.quiz-next:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Quiz result */
+.quiz-result {
+  display: none;
+  text-align: center;
+  padding: 48px 32px;
+  background: rgba(255,255,255,.04);
+  border: 2px solid rgba(255,255,255,.08);
+  border-radius: 20px;
+  animation: fadeInUp .5s ease forwards;
+}
+.quiz-result.show { display: block; }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.result-score {
+  font-family: var(--font-head);
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.result-ok .result-score { color: #22c55e; }
+.result-warn .result-score { color: #f59e0b; }
+.result-urgent .result-score { color: var(--orange); }
+.result-label {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 14px;
+}
+.result-desc {
+  font-size: 16px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.65;
+  max-width: 500px;
+  margin: 0 auto 28px;
+}
+.result-ok { border-color: rgba(34,197,94,.25); background: rgba(34,197,94,.05); }
+.result-warn { border-color: rgba(245,158,11,.25); background: rgba(245,158,11,.05); }
+.result-urgent { border-color: rgba(234,91,12,.35); background: rgba(234,91,12,.07); }
+
+/* ===== STATS SECTION ===== */
+.sec-stats {
+  background: var(--ink);
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+.sec-stats::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(234,91,12,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.sec-stats::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -80px;
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, rgba(34,60,126,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 56px;
+}
+.stat-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 18px;
+  padding: 40px 24px;
+  text-align: center;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(234,91,12,.05) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity .3s;
+}
+.stat-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,255,255,.15);
+  box-shadow: 0 20px 50px rgba(0,0,0,.35);
+}
+.stat-card:hover::before { opacity: 1; }
+.stat-num {
+  position: relative;
+  font-family: var(--font-head);
+  font-size: 56px;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, #fff, rgba(255,255,255,.7));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+.stat-num sup {
+  font-size: 26px;
+  -webkit-text-fill-color: var(--orange);
+  color: var(--orange);
+  vertical-align: super;
+}
+.stat-label {
+  font-size: 14px;
+  color: rgba(255,255,255,.45);
+  line-height: 1.5;
+}
+
+/* ===== FINAL CTA ===== */
+.sec-cta {
+  background: linear-gradient(160deg, #0f1d3d 0%, #1a2f63 40%, #080f20 100%);
+  padding: 120px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.sec-cta::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 800px; height: 600px;
+  background: radial-gradient(ellipse, rgba(234,91,12,.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.cta-eyebrow {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 20px;
+  display: block;
+}
+.cta-h2 {
+  font-family: var(--font-head);
+  font-size: clamp(36px, 5.5vw, 68px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+.cta-p {
+  font-size: 18px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.7;
+  margin-bottom: 44px;
+}
+.cta-p strong { color: #fff; }
+.cta-btn-wrap { margin-bottom: 44px; }
+.cta-contacts {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.cta-contact-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: rgba(255,255,255,.55);
+  transition: color .2s;
+}
+.cta-contact-link:hover { color: #fff; }
+.cta-contact-link svg { width: 18px; height: 18px; stroke: var(--orange); }
+.cta-note {
+  font-size: 12px;
+  color: rgba(255,255,255,.25);
+  letter-spacing: .08em;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #04080f;
+  padding: 44px 0;
+  border-top: 1px solid rgba(255,255,255,.05);
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-logo svg { width: 110px; height: auto; display: block; opacity: .7; }
+.footer-copy {
+  font-size: 13px;
+  color: rgba(255,255,255,.25);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .hero-h1 { font-size: clamp(38px, 8vw, 56px); }
+  .hero-h1-line2 { font-size: clamp(34px, 7.5vw, 52px); }
+  .orb-2 { right: -160px; }
+}
+@media (max-width: 768px) {
+  .header-inner { padding: 0 20px; }
+  nav { display: none; }
+  .header-cta { display: none; }
+  .sec-inner, .quiz-inner, .banner-inner, .cta-inner { padding: 0 20px; }
+  .sec-solution, .sec-quiz, .sec-stats, .sec-cta, .sec-promise, .sec-banner { padding: 72px 0; }
+  .sec-hero { padding: 100px 0 60px; }
+  .hero-inner { padding: 0 20px; }
+  .promise-grid { grid-template-columns: 1fr; gap: 36px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .quiz-cards { grid-template-columns: 1fr; }
+  .sol-item { grid-template-columns: 48px 1fr 44px; gap: 0 16px; padding: 22px 20px; }
+  .sol-num { font-size: 40px; }
+  .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+  .step-bar { width: 40px; }
+  .cta-contacts { flex-direction: column; align-items: center; gap: 16px; }
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .hero-btns { flex-direction: column; }
+  .hero-btns .btn { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header id="site-header">
+  <div class="header-inner">
+    <a class="header-logo" href="#">
+      <svg xmlns="http://www.w3.org/2000/svg" width="400" height="165" viewBox="0 0 400 165" aria-label="Logo JPF" role="img">
+        <path fill="#fff" d="M199.45,94.6l10.58-11.78c4.36,4.8,8.62,7.63,13.96,7.63,6.33,0,10.25-3.82,10.25-12.65V28.62h17.23v49.95c0,9.05-2.62,15.81-7.2,20.39-4.69,4.69-11.56,7.09-19.85,7.09-11.89,0-19.74-5.23-24.97-11.45"/>
+        <path fill="#fff" d="M268.59,28.62h31.19c18.21,0,29.23,10.8,29.23,26.39v.22c0,17.67-13.74,26.83-30.86,26.83h-12.76v22.9h-16.8V28.62ZM298.69,67.12c8.4,0,13.3-5.02,13.3-11.56v-.22c0-7.52-5.23-11.56-13.63-11.56h-12.98v23.34h13.3Z"/>
+        <polygon fill="#fff" points="341.43 28.62 399.56 28.62 399.56 43.89 358.23 43.89 358.23 60.14 394.65 60.14 394.65 75.41 358.23 75.41 358.23 104.96 341.43 104.96 341.43 28.62"/>
+        <path fill="#fff" d="M29.82,136.08c-.35-.34-.69-.69-1.03-1.04-9-9.67-8.72-26.43-.89-44.55,5.34,8.86,12.22,17.69,20.55,26.02,5.31,5.31,10.83,10.04,16.44,14.15,9.05,6.65,18.3,11.67,27.24,14.97,7.95,2.93,15.64,4.52,22.72,4.6-5.37,2.58-11.05,4.6-17.03,5.85l-.52.1c-2.28.46-4.59.82-6.94,1.06l-.68.06c-2.38.23-4.78.37-7.22.37s-4.82-.14-7.2-.37l-.71-.06c-2.34-.25-4.65-.6-6.92-1.06l-.54-.11c-6.06-1.26-11.81-3.33-17.24-5.96,7.06-.07,15.59-2.07,23.82-5.11l-7.79-4.84c-6.74,2.49-12.4,3.64-17.3,3.64h0c-7.7,0-13.53-2.83-18.74-7.73M141.41,82.5c5.64-11.34,8.65-22.47,8.77-32.39,2.58,5.37,4.61,11.06,5.86,17.04l.1.5c.46,2.28.82,4.6,1.06,6.96l.05.66c.23,2.38.37,4.79.37,7.23s-.14,4.85-.37,7.23l-.05.65c-.25,2.36-.61,4.68-1.07,6.97l-.1.48c-1.25,5.99-3.28,11.67-5.86,17.05-.12-9.92-3.12-21.05-8.77-32.39M8.87,97.87l-.11-.55c-.46-2.27-.81-4.58-1.06-6.92l-.06-.69c-.23-2.38-.37-4.78-.37-7.21h0c0-2.44.14-4.84.37-7.22l.06-.69c.24-2.34.6-4.65,1.06-6.92l.11-.55c1.25-5.97,3.27-11.65,5.85-17.02.11,9.92,3.12,21.05,8.76,32.39-5.64,11.34-8.65,22.48-8.76,32.39-2.58-5.37-4.6-11.04-5.85-17.02M99.07,140.28c-9.18-2.79-18.97-7.72-28.57-14.56-5.77-4.12-11.47-8.92-16.92-14.36-9.18-9.18-16.54-19.09-21.85-28.86,5.31-9.77,12.68-19.68,21.85-28.86,28.94-28.95,65.15-39.89,81.38-24.82.39.38.78.77,1.17,1.16,8.98,9.67,8.69,26.42.88,44.53-5.34-8.86-12.22-17.7-20.55-26.02-7.7-7.7-9.92-10.39-18.66-15.76l-8.08,3.49c8.25,5.08,14.28,10.12,21.59,17.42,9.18,9.18,16.54,19.09,21.85,28.86-5.31,9.77-12.68,19.68-21.85,28.86-7,7-13.61,12.47-21.48,17.43l8.04,3.44c8.33-5.25,11.2-8.34,18.58-15.72,8.33-8.33,15.21-17.16,20.55-26.02,7.81,18.09,8.1,34.83-.84,44.5-.4.4-.79.8-1.2,1.2-4.93,4.57-11.7,6.75-19.55,6.75-5.07,0-10.58-.9-16.34-2.65M73.42,20.02c-8.08-2.95-16.64-5.07-23.59-5.13,5.43-2.63,11.18-4.69,17.23-5.96l.58-.11c2.27-.46,4.57-.81,6.9-1.06l.72-.06c2.38-.22,4.77-.37,7.19-.37s4.84.14,7.22.37l.68.06c2.35.25,4.66.6,6.94,1.06l.52.1c5.98,1.25,11.66,3.27,17.03,5.85-19.96.24-44.87,12.21-66.39,33.72-8.32,8.33-15.21,17.16-20.55,26.02-7.82-18.12-8.11-34.89.89-44.55.34-.35.69-.7,1.04-1.04,8.46-7.95,19.68-10.94,36.84-4.68l6.76-4.22ZM74.63.43l-.52.04c-2.37.24-4.72.6-7.04,1.04-.4.08-.81.14-1.21.22-2.08.42-4.12.96-6.15,1.54-.78.22-1.56.45-2.32.69-1.65.52-3.27,1.12-4.88,1.74-1.1.43-2.18.88-3.26,1.35-1.29.57-2.57,1.17-3.83,1.81-1.21.61-2.41,1.25-3.58,1.92-1.14.65-2.26,1.32-3.37,2.02-1.12.71-2.23,1.45-3.31,2.21-1.17.83-2.33,1.68-3.46,2.57-.92.72-1.82,1.45-2.7,2.2-1.26,1.08-2.5,2.2-3.7,3.36-.38.36-.79.68-1.16,1.05-.37.37-.68.78-1.04,1.15-1.17,1.22-2.31,2.47-3.39,3.74-.73.86-1.45,1.74-2.15,2.63-.92,1.17-1.8,2.36-2.65,3.57-.73,1.05-1.44,2.11-2.13,3.19-.73,1.16-1.44,2.33-2.11,3.52-.64,1.13-1.25,2.27-1.84,3.44-.66,1.31-1.3,2.64-1.89,3.99-.45,1.02-.87,2.05-1.28,3.09-.65,1.66-1.26,3.33-1.8,5.02-.23.73-.44,1.46-.65,2.19-.59,2.05-1.13,4.11-1.55,6.21-.08.38-.13.77-.21,1.16-.44,2.34-.81,4.69-1.05,7.08l-.04.5c-.24,2.59-.38,5.2-.38,7.83h0c0,2.64.14,5.25.38,7.83l.04.5c.24,2.39.61,4.74,1.05,7.08.07.39.13.78.21,1.16.43,2.1.97,4.16,1.55,6.21.21.73.42,1.47.65,2.19.54,1.7,1.15,3.36,1.8,5.02.41,1.04.83,2.07,1.28,3.09.59,1.35,1.22,2.68,1.89,3.99.59,1.16,1.2,2.31,1.84,3.43.67,1.19,1.38,2.36,2.11,3.52.69,1.08,1.39,2.14,2.13,3.19.85,1.21,1.73,2.4,2.65,3.57.7.89,1.41,1.77,2.15,2.63,1.09,1.28,2.22,2.52,3.39,3.74.36.37.67.78,1.04,1.15.37.37.78.69,1.16,1.05,1.2,1.16,2.44,2.28,3.7,3.36.88.75,1.78,1.49,2.7,2.21,1.13.89,2.29,1.75,3.46,2.57,1.09.76,2.19,1.5,3.31,2.21,1.11.7,2.23,1.38,3.37,2.02,1.18.67,2.37,1.31,3.58,1.92,1.26.64,2.53,1.24,3.83,1.81,1.07.47,2.16.92,3.26,1.35,1.61.63,3.23,1.22,4.88,1.74.77.25,1.54.47,2.32.69,2.03.58,4.07,1.12,6.15,1.54.4.08.81.14,1.21.21,2.32.44,4.67.8,7.04,1.04l.52.04c2.58.24,5.19.38,7.82.38s5.23-.14,7.81-.38l.52-.04c2.37-.24,4.72-.6,7.04-1.04.4-.08.81-.13,1.21-.21,2.08-.42,4.12-.96,6.14-1.54.78-.22,1.56-.45,2.34-.7,1.64-.52,3.26-1.12,4.86-1.74,1.1-.43,2.19-.88,3.26-1.35,1.29-.57,2.56-1.17,3.82-1.81,1.22-.61,2.41-1.26,3.59-1.93,1.13-.64,2.25-1.31,3.36-2.01,1.13-.71,2.24-1.45,3.33-2.22,1.17-.82,2.32-1.67,3.44-2.56.92-.72,1.83-1.46,2.71-2.22,1.26-1.07,2.48-2.19,3.68-3.34.38-.37.79-.69,1.17-1.06l.03-.03c.37-.38.69-.79,1.06-1.17,1.15-1.2,2.27-2.43,3.35-3.7.74-.87,1.47-1.77,2.18-2.67.9-1.15,1.76-2.31,2.59-3.49.75-1.07,1.48-2.16,2.18-3.27.71-1.12,1.39-2.26,2.05-3.41.66-1.16,1.29-2.34,1.89-3.54.64-1.28,1.26-2.56,1.83-3.87.47-1.06.91-2.13,1.33-3.21.63-1.62,1.23-3.25,1.75-4.91.24-.76.46-1.53.68-2.3.58-2.03,1.11-4.07,1.54-6.14.08-.4.14-.81.22-1.21.43-2.32.8-4.66,1.04-7.03l.04-.52c.24-2.58.38-5.18.38-7.8h0c0-2.64-.14-5.24-.38-7.82l-.04-.52c-.24-2.38-.61-4.72-1.04-7.05-.08-.39-.13-.8-.21-1.19-.42-2.08-.96-4.14-1.54-6.17-.22-.76-.44-1.52-.67-2.27-.53-1.67-1.13-3.32-1.77-4.95-.42-1.06-.85-2.12-1.31-3.16-.58-1.33-1.21-2.64-1.86-3.93-.6-1.18-1.22-2.34-1.87-3.49-.66-1.17-1.36-2.33-2.08-3.47-.7-1.1-1.41-2.17-2.16-3.23-.84-1.2-1.72-2.38-2.62-3.54-.71-.9-1.43-1.78-2.17-2.65-1.08-1.27-2.2-2.51-3.37-3.72-.37-.38-.68-.79-1.05-1.16-.37-.37-.79-.69-1.17-1.06-1.2-1.16-2.43-2.27-3.68-3.34-.89-.76-1.79-1.5-2.71-2.22-1.13-.89-2.28-1.74-3.44-2.56-1.09-.77-2.2-1.51-3.33-2.22-1.1-.7-2.22-1.37-3.36-2.01-1.18-.67-2.38-1.31-3.59-1.93-1.26-.63-2.53-1.24-3.82-1.81-1.07-.47-2.16-.92-3.26-1.35-1.61-.62-3.22-1.22-4.86-1.74-.77-.25-1.56-.47-2.34-.7-2.03-.58-4.07-1.11-6.14-1.53-.4-.08-.81-.14-1.21-.22-2.32-.44-4.67-.8-7.04-1.04l-.52-.04c-2.58-.24-5.19-.38-7.81-.38s-5.23.14-7.82.38"/>
+      </svg>
+    </a>
+    <nav>
+      <a href="#sec-solution-anchor">Řešení</a>
+      <a href="#sec-quiz-anchor">Dotazník</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a href="#kontakt" class="btn btn-primary header-cta">Probrat situaci</a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="sec-hero" id="hero">
+  <div class="hero-dotgrid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="hero-inner">
+    <!-- Left col -->
+    <div class="hero-left">
+      <p class="hero-label rv">JPF · INTERIM MANAGEMENT</p>
+      <h1 class="hero-h1 rv d1">Neradíme.</h1>
+      <p class="hero-h1-line2 rv d2">Přebíráme odpovědnost.</p>
+      <p class="hero-sub rv d3">Po vašem boku v první linii.</p>
+      <div class="hero-divider rv d3"></div>
+      <div class="hero-btns rv d4">
+        <a href="#kontakt" class="btn btn-primary">Nezávazně probrat situaci</a>
+        <a href="#sec-solution-anchor" class="btn btn-ghost-dark">Jak fungujeme</a>
+      </div>
+    </div>
+
+    <!-- Right col — pain card -->
+    <div class="hero-card-wrap rv-right d2" id="hero-card-wrap">
+      <!-- Neon SVG overlay — injected by JS -->
+      <svg class="neon-svg" id="neon-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <filter id="neon-blur">
+            <feGaussianBlur stdDeviation="5"/>
+          </filter>
+        </defs>
+        <rect class="neon-glow" id="neon-glow" rx="20" fill="none"
+          stroke="rgba(234,91,12,.7)" stroke-width="10"
+          filter="url(#neon-blur)"/>
+        <rect class="neon-core" id="neon-core" rx="20" fill="none"
+          stroke="rgba(255,190,100,1)" stroke-width="2"/>
+      </svg>
+
+      <div class="hero-card">
+        <span class="card-tag">Rozpoznáváte se?</span>
+        <p class="card-question">Klidný spánek už je jen vzpomínka?</p>
+        <ul class="card-bullets">
+          <li>Každé důležité rozhodnutí končí u vás.</li>
+          <li>Bez vás firma ztrácí tempo, a vypnout už vlastně neumíte.</li>
+          <li>Tohle je chvíle, kdy firma přeroste jednoho člověka.</li>
+        </ul>
+        <p class="card-footer">Jste podnikatel, dělejte strategická rozhodnutí.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ===== SOLUTION ===== -->
+<section class="sec-solution" id="sec-solution-anchor">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <span class="section-label-light rv">Naše řešení</span>
+      <h2 class="sec-h2 rv d1">Po vašem boku <em>převezmeme</em></h2>
+    </div>
+
+    <ul class="sol-list">
+      <li class="sol-item rv d2">
+        <span class="sol-num">01</span>
+        <div class="sol-body">
+          <p class="sol-area-name">Finanční řízení</p>
+          <p class="sol-result-tag">→ zastavíme krvácení</p>
+          <p class="sol-desc">Rychlá analýza cash flow, okamžitá opatření k zastavení ztrát a nastavení finančního řízení na solidní základ.</p>
+        </div>
+        <div class="sol-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+            <line x1="12" y1="2" x2="12" y2="4"/>
+            <line x1="12" y1="20" x2="12" y2="22"/>
+          </svg>
+        </div>
+      </li>
+
+      <li class="sol-item rv d3">
+        <span class="sol-num">02</span>
+        <div class="sol-body">
+          <p class="sol-area-name">Management lidí</p>
+          <p class="sol-result-tag">→ nastavíme procesy</p>
+          <p class="sol-desc">Vyhodnotíme tým, nastavíme odpovědnosti a procesy tak, aby firma fungovala bez vaší permanentní přítomnosti.</p>
+        </div>
+        <div class="sol-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+      </li>
+
+      <li class="sol-item rv d4">
+        <span class="sol-num">03</span>
+        <div class="sol-body">
+          <p class="sol-area-name">Těžká rozhodnutí</p>
+          <p class="sol-result-tag">→ každodenní exekutivu</p>
+          <p class="sol-desc">Přebíráme odpovědnost za náročná personální i obchodní rozhodnutí a zajišťujeme každodenní operativní chod firmy.</p>
+        </div>
+        <div class="sol-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+      </li>
+    </ul>
+
+    <div class="sol-extras rv d5">
+      <div class="sol-extra-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="7" width="20" height="14" rx="2"/>
+          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+        </svg>
+        Ujmeme se komunikace s institucemi
+      </div>
+      <div class="sol-extra-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+        Zefektivníme marketing a obchod
+      </div>
+      <div class="sol-extra-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+          <polyline points="17 6 23 6 23 12"/>
+        </svg>
+        Nastartujeme růst
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MARQUEE ===== -->
+<div class="sec-marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <!-- First copy -->
+    <div class="marquee-item">NERADÍME</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PŘEBÍRÁME ODPOVĚDNOST</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PO VAŠEM BOKU</div><div class="marquee-dot"></div>
+    <div class="marquee-item">NERADÍME</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PŘEBÍRÁME ODPOVĚDNOST</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PO VAŠEM BOKU</div><div class="marquee-dot"></div>
+    <div class="marquee-item">NERADÍME</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PŘEBÍRÁME ODPOVĚDNOST</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PO VAŠEM BOKU</div><div class="marquee-dot"></div>
+    <div class="marquee-item">NERADÍME</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PŘEBÍRÁME ODPOVĚDNOST</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PO VAŠEM BOKU</div><div class="marquee-dot"></div>
+    <!-- Second copy (duplicate for seamless loop) -->
+    <div class="marquee-item">NERADÍME</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PŘEBÍRÁME ODPOVĚDNOST</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PO VAŠEM BOKU</div><div class="marquee-dot"></div>
+    <div class="marquee-item">NERADÍME</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PŘEBÍRÁME ODPOVĚDNOST</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PO VAŠEM BOKU</div><div class="marquee-dot"></div>
+    <div class="marquee-item">NERADÍME</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PŘEBÍRÁME ODPOVĚDNOST</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PO VAŠEM BOKU</div><div class="marquee-dot"></div>
+    <div class="marquee-item">NERADÍME</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PŘEBÍRÁME ODPOVĚDNOST</div><div class="marquee-dot"></div>
+    <div class="marquee-item">PO VAŠEM BOKU</div><div class="marquee-dot"></div>
+  </div>
+</div>
+
+<!-- ===== BANNER / QUOTE ===== -->
+<section class="sec-banner">
+  <div class="banner-inner">
+    <h2 class="banner-h rv">Vy se věnujte <em>rozvoji firmy a sobě.</em></h2>
+    <p class="banner-sub rv d1">My poneseme operativu. Vy povedete firmu.</p>
+  </div>
+</section>
+
+<!-- ===== PROMISE ===== -->
+<section class="sec-promise">
+  <div class="promise-grid">
+    <div class="promise-left rv-left">
+      <span class="section-label">Náš závazek</span>
+      <h2 class="promise-h2">Úspěch vaší firmy je <em>i naším úspěchem.</em></h2>
+      <p class="promise-p">Za naší práci platíte pouze z toho, co vám prokazatelně pomůžeme vydělat. <strong>Naše odměna je vázána na výsledky</strong> — ne na odpracované hodiny nebo počet prezentací.</p>
+    </div>
+    <div class="promise-right rv-right">
+      <div class="promise-card">
+        <p class="promise-card-h">Za těžká rozhodnutí, neseme odpovědnost společně s vámi.</p>
+        <p class="promise-card-sub">JPF neposkytuje interim manažera, poskytuje <strong>ucelené řešení</strong></p>
+        <div class="diff-items">
+          <div class="diff-item">
+            <div class="diff-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <p class="diff-text">Seniorní dohled partnerů</p>
+          </div>
+          <div class="diff-item">
+            <div class="diff-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="17 1 21 5 17 9"/>
+                <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                <polyline points="7 23 3 19 7 15"/>
+                <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+              </svg>
+            </div>
+            <p class="diff-text">Okamžitou zastupitelnost</p>
+          </div>
+          <div class="diff-item">
+            <div class="diff-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="9 11 12 14 22 4"/>
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+              </svg>
+            </div>
+            <p class="diff-text">Osvědčené procesy</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUIZ ===== -->
+<section class="sec-quiz" id="sec-quiz-anchor">
+  <div class="quiz-inner">
+    <div class="quiz-header">
+      <span class="section-label-light rv">Dotazník</span>
+      <h2 class="sec-h2 rv d1">Rozpoznáváte se?</h2>
+      <p class="quiz-sub rv d2">Odpovězte na 6 otázek a zjistěte, zda je čas na změnu.</p>
+    </div>
+
+    <!-- Stepper -->
+    <div class="stepper rv d3" id="stepper">
+      <div class="step active" data-step="0">
+        <div class="step-dot">1</div>
+        <div class="step-label">Energie</div>
+      </div>
+      <div class="step-bar" id="bar-0-1"></div>
+      <div class="step" data-step="1">
+        <div class="step-dot">2</div>
+        <div class="step-label">Rozhodování</div>
+      </div>
+      <div class="step-bar" id="bar-1-2"></div>
+      <div class="step" data-step="2">
+        <div class="step-dot">3</div>
+        <div class="step-label">Závislost</div>
+      </div>
+    </div>
+
+    <!-- Slides -->
+    <div class="quiz-slides-wrap rv d4" id="quiz-slides">
+      <!-- Slide 0 -->
+      <div class="quiz-slide active" data-slide="0">
+        <p class="slide-label">Energie &amp; motivace</p>
+        <div class="quiz-cards">
+          <div class="quiz-card" data-qi="0">
+            <p class="quiz-q">Probudíte se a do firmy se vám vůbec nechce?</p>
+            <div class="quiz-btns">
+              <button class="quiz-btn quiz-btn-ano" data-answer="ano">ANO</button>
+              <button class="quiz-btn quiz-btn-ne" data-answer="ne">NE</button>
+            </div>
+          </div>
+          <div class="quiz-card" data-qi="1">
+            <p class="quiz-q">Nemáte už sílu dělat další těžká rozhodnutí?</p>
+            <div class="quiz-btns">
+              <button class="quiz-btn quiz-btn-ano" data-answer="ano">ANO</button>
+              <button class="quiz-btn quiz-btn-ne" data-answer="ne">NE</button>
+            </div>
+          </div>
+        </div>
+        <div class="quiz-next-wrap">
+          <button class="btn btn-blue quiz-next" disabled data-slide="0">Další →</button>
+        </div>
+      </div>
+
+      <!-- Slide 1 -->
+      <div class="quiz-slide" data-slide="1">
+        <p class="slide-label">Rozhodování &amp; podpora</p>
+        <div class="quiz-cards">
+          <div class="quiz-card" data-qi="2">
+            <p class="quiz-q">Pochybujete o každém kroku a je odkládáte na neurčito?</p>
+            <div class="quiz-btns">
+              <button class="quiz-btn quiz-btn-ano" data-answer="ano">ANO</button>
+              <button class="quiz-btn quiz-btn-ne" data-answer="ne">NE</button>
+            </div>
+          </div>
+          <div class="quiz-card" data-qi="3">
+            <p class="quiz-q">Chybí vám člověk, o kterého se dalo opřít?</p>
+            <div class="quiz-btns">
+              <button class="quiz-btn quiz-btn-ano" data-answer="ano">ANO</button>
+              <button class="quiz-btn quiz-btn-ne" data-answer="ne">NE</button>
+            </div>
+          </div>
+        </div>
+        <div class="quiz-next-wrap">
+          <button class="btn btn-blue quiz-next" disabled data-slide="1">Další →</button>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="quiz-slide" data-slide="2">
+        <p class="slide-label">Závislost firmy na vás</p>
+        <div class="quiz-cards">
+          <div class="quiz-card" data-qi="4">
+            <p class="quiz-q">Musíte být ve firmě neustále, jinak se to celé sesype?</p>
+            <div class="quiz-btns">
+              <button class="quiz-btn quiz-btn-ano" data-answer="ano">ANO</button>
+              <button class="quiz-btn quiz-btn-ne" data-answer="ne">NE</button>
+            </div>
+          </div>
+          <div class="quiz-card" data-qi="5">
+            <p class="quiz-q">Už jste si vyhledali vše dostupné na snížení stresu a kortizolu?</p>
+            <div class="quiz-btns">
+              <button class="quiz-btn quiz-btn-ano" data-answer="ano">ANO</button>
+              <button class="quiz-btn quiz-btn-ne" data-answer="ne">NE</button>
+            </div>
+          </div>
+        </div>
+        <div class="quiz-next-wrap">
+          <button class="btn btn-blue quiz-next" disabled data-slide="2">Zobrazit výsledek →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="quiz-result" id="quiz-result">
+      <div class="result-score" id="result-score">0</div>
+      <p class="result-label" id="result-label"></p>
+      <p class="result-desc" id="result-desc"></p>
+      <a href="#kontakt" class="btn btn-primary">Nezávazně probrat situaci →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section class="sec-stats" id="sec-stats">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <span class="section-label-light rv">Výsledky</span>
+      <h2 class="sec-h2 rv d1">Většinu firemních problémů jsme<br><em>už někdy viděli</em></h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card rv d2">
+        <p class="stat-num"><span class="acc" data-target="650">0</span><sup>+</sup></p>
+        <p class="stat-label">realizovaných projektů</p>
+      </div>
+      <div class="stat-card rv d3">
+        <p class="stat-num"><span class="acc" data-target="150">0</span></p>
+        <p class="stat-label">řízených firem ročně</p>
+      </div>
+      <div class="stat-card rv d4">
+        <p class="stat-num"><span class="acc" data-target="86">0</span><sup>%</sup></p>
+        <p class="stat-label">úspěšnost projektů</p>
+      </div>
+      <div class="stat-card rv d5">
+        <p class="stat-num"><span class="acc" data-target="21">0</span><sup>+</sup></p>
+        <p class="stat-label">miliard Kč v souhrnném obratu klientů</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="sec-cta" id="kontakt">
+  <div class="cta-inner">
+    <span class="cta-eyebrow rv">Připraveni zahájit spolupráci?</span>
+    <h2 class="cta-h2 rv d1">Vybudovali jste firmu.</h2>
+    <p class="cta-p rv d2">Teď je čas přestat držet všechno jen vlastními silami.<br><strong>30 minut</strong> často stačí k tomu, aby majitel firmy viděl světlo na konci tunelu.</p>
+    <div class="cta-btn-wrap rv d3">
+      <a href="mailto:info@jpf.cz" class="btn btn-primary btn-lg">Nezávazně probrat situaci →</a>
+    </div>
+    <div class="cta-contacts rv d4">
+      <a href="mailto:info@jpf.cz" class="cta-contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        info@jpf.cz
+      </a>
+      <a href="tel:+420000000000" class="cta-contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        +420 XXX XXX XXX
+      </a>
+    </div>
+    <p class="cta-note rv d5">Nezávazné. Bez závazků. Bez podpisu.</p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="400" height="165" viewBox="0 0 400 165" aria-label="Logo JPF" role="img">
+        <path fill="#fff" d="M199.45,94.6l10.58-11.78c4.36,4.8,8.62,7.63,13.96,7.63,6.33,0,10.25-3.82,10.25-12.65V28.62h17.23v49.95c0,9.05-2.62,15.81-7.2,20.39-4.69,4.69-11.56,7.09-19.85,7.09-11.89,0-19.74-5.23-24.97-11.45"/>
+        <path fill="#fff" d="M268.59,28.62h31.19c18.21,0,29.23,10.8,29.23,26.39v.22c0,17.67-13.74,26.83-30.86,26.83h-12.76v22.9h-16.8V28.62ZM298.69,67.12c8.4,0,13.3-5.02,13.3-11.56v-.22c0-7.52-5.23-11.56-13.63-11.56h-12.98v23.34h13.3Z"/>
+        <polygon fill="#fff" points="341.43 28.62 399.56 28.62 399.56 43.89 358.23 43.89 358.23 60.14 394.65 60.14 394.65 75.41 358.23 75.41 358.23 104.96 341.43 104.96 341.43 28.62"/>
+        <path fill="#fff" d="M29.82,136.08c-.35-.34-.69-.69-1.03-1.04-9-9.67-8.72-26.43-.89-44.55,5.34,8.86,12.22,17.69,20.55,26.02,5.31,5.31,10.83,10.04,16.44,14.15,9.05,6.65,18.3,11.67,27.24,14.97,7.95,2.93,15.64,4.52,22.72,4.6-5.37,2.58-11.05,4.6-17.03,5.85l-.52.1c-2.28.46-4.59.82-6.94,1.06l-.68.06c-2.38.23-4.78.37-7.22.37s-4.82-.14-7.2-.37l-.71-.06c-2.34-.25-4.65-.6-6.92-1.06l-.54-.11c-6.06-1.26-11.81-3.33-17.24-5.96,7.06-.07,15.59-2.07,23.82-5.11l-7.79-4.84c-6.74,2.49-12.4,3.64-17.3,3.64h0c-7.7,0-13.53-2.83-18.74-7.73M141.41,82.5c5.64-11.34,8.65-22.47,8.77-32.39,2.58,5.37,4.61,11.06,5.86,17.04l.1.5c.46,2.28.82,4.6,1.06,6.96l.05.66c.23,2.38.37,4.79.37,7.23s-.14,4.85-.37,7.23l-.05.65c-.25,2.36-.61,4.68-1.07,6.97l-.1.48c-1.25,5.99-3.28,11.67-5.86,17.05-.12-9.92-3.12-21.05-8.77-32.39M8.87,97.87l-.11-.55c-.46-2.27-.81-4.58-1.06-6.92l-.06-.69c-.23-2.38-.37-4.78-.37-7.21h0c0-2.44.14-4.84.37-7.22l.06-.69c.24-2.34.6-4.65,1.06-6.92l.11-.55c1.25-5.97,3.27-11.65,5.85-17.02.11,9.92,3.12,21.05,8.76,32.39-5.64,11.34-8.65,22.48-8.76,32.39-2.58-5.37-4.6-11.04-5.85-17.02M99.07,140.28c-9.18-2.79-18.97-7.72-28.57-14.56-5.77-4.12-11.47-8.92-16.92-14.36-9.18-9.18-16.54-19.09-21.85-28.86,5.31-9.77,12.68-19.68,21.85-28.86,28.94-28.95,65.15-39.89,81.38-24.82.39.38.78.77,1.17,1.16,8.98,9.67,8.69,26.42.88,44.53-5.34-8.86-12.22-17.7-20.55-26.02-7.7-7.7-9.92-10.39-18.66-15.76l-8.08,3.49c8.25,5.08,14.28,10.12,21.59,17.42,9.18,9.18,16.54,19.09,21.85,28.86-5.31,9.77-12.68,19.68-21.85,28.86-7,7-13.61,12.47-21.48,17.43l8.04,3.44c8.33-5.25,11.2-8.34,18.58-15.72,8.33-8.33,15.21-17.16,20.55-26.02,7.81,18.09,8.1,34.83-.84,44.5-.4.4-.79.8-1.2,1.2-4.93,4.57-11.7,6.75-19.55,6.75-5.07,0-10.58-.9-16.34-2.65M73.42,20.02c-8.08-2.95-16.64-5.07-23.59-5.13,5.43-2.63,11.18-4.69,17.23-5.96l.58-.11c2.27-.46,4.57-.81,6.9-1.06l.72-.06c2.38-.22,4.77-.37,7.19-.37s4.84.14,7.22.37l.68.06c2.35.25,4.66.6,6.94,1.06l.52.1c5.98,1.25,11.66,3.27,17.03,5.85-19.96.24-44.87,12.21-66.39,33.72-8.32,8.33-15.21,17.16-20.55,26.02-7.82-18.12-8.11-34.89.89-44.55.34-.35.69-.7,1.04-1.04,8.46-7.95,19.68-10.94,36.84-4.68l6.76-4.22ZM74.63.43l-.52.04c-2.37.24-4.72.6-7.04,1.04-.4.08-.81.14-1.21.22-2.08.42-4.12.96-6.15,1.54-.78.22-1.56.45-2.32.69-1.65.52-3.27,1.12-4.88,1.74-1.1.43-2.18.88-3.26,1.35-1.29.57-2.57,1.17-3.83,1.81-1.21.61-2.41,1.25-3.58,1.92-1.14.65-2.26,1.32-3.37,2.02-1.12.71-2.23,1.45-3.31,2.21-1.17.83-2.33,1.68-3.46,2.57-.92.72-1.82,1.45-2.7,2.2-1.26,1.08-2.5,2.2-3.7,3.36-.38.36-.79.68-1.16,1.05-.37.37-.68.78-1.04,1.15-1.17,1.22-2.31,2.47-3.39,3.74-.73.86-1.45,1.74-2.15,2.63-.92,1.17-1.8,2.36-2.65,3.57-.73,1.05-1.44,2.11-2.13,3.19-.73,1.16-1.44,2.33-2.11,3.52-.64,1.13-1.25,2.27-1.84,3.44-.66,1.31-1.3,2.64-1.89,3.99-.45,1.02-.87,2.05-1.28,3.09-.65,1.66-1.26,3.33-1.8,5.02-.23.73-.44,1.46-.65,2.19-.59,2.05-1.13,4.11-1.55,6.21-.08.38-.13.77-.21,1.16-.44,2.34-.81,4.69-1.05,7.08l-.04.5c-.24,2.59-.38,5.2-.38,7.83h0c0,2.64.14,5.25.38,7.83l.04.5c.24,2.39.61,4.74,1.05,7.08.07.39.13.78.21,1.16.43,2.1.97,4.16,1.55,6.21.21.73.42,1.47.65,2.19.54,1.7,1.15,3.36,1.8,5.02.41,1.04.83,2.07,1.28,3.09.59,1.35,1.22,2.68,1.89,3.99.59,1.16,1.2,2.31,1.84,3.43.67,1.19,1.38,2.36,2.11,3.52.69,1.08,1.39,2.14,2.13,3.19.85,1.21,1.73,2.4,2.65,3.57.7.89,1.41,1.77,2.15,2.63,1.09,1.28,2.22,2.52,3.39,3.74.36.37.67.78,1.04,1.15.37.37.78.69,1.16,1.05,1.2,1.16,2.44,2.28,3.7,3.36.88.75,1.78,1.49,2.7,2.21,1.13.89,2.29,1.75,3.46,2.57,1.09.76,2.19,1.5,3.31,2.21,1.11.7,2.23,1.38,3.37,2.02,1.18.67,2.37,1.31,3.58,1.92,1.26.64,2.53,1.24,3.83,1.81,1.07.47,2.16.92,3.26,1.35,1.61.63,3.23,1.22,4.88,1.74.77.25,1.54.47,2.32.69,2.03.58,4.07,1.12,6.15,1.54.4.08.81.14,1.21.21,2.32.44,4.67.8,7.04,1.04l.52.04c2.58.24,5.19.38,7.82.38s5.23-.14,7.81-.38l.52-.04c2.37-.24,4.72-.6,7.04-1.04.4-.08.81-.13,1.21-.21,2.08-.42,4.12-.96,6.14-1.54.78-.22,1.56-.45,2.34-.7,1.64-.52,3.26-1.12,4.86-1.74,1.1-.43,2.19-.88,3.26-1.35,1.29-.57,2.56-1.17,3.82-1.81,1.22-.61,2.41-1.26,3.59-1.93,1.13-.64,2.25-1.31,3.36-2.01,1.13-.71,2.24-1.45,3.33-2.22,1.17-.82,2.32-1.67,3.44-2.56.92-.72,1.83-1.46,2.71-2.22,1.26-1.07,2.48-2.19,3.68-3.34.38-.37.79-.69,1.17-1.06l.03-.03c.37-.38.69-.79,1.06-1.17,1.15-1.2,2.27-2.43,3.35-3.7.74-.87,1.47-1.77,2.18-2.67.9-1.15,1.76-2.31,2.59-3.49.75-1.07,1.48-2.16,2.18-3.27.71-1.12,1.39-2.26,2.05-3.41.66-1.16,1.29-2.34,1.89-3.54.64-1.28,1.26-2.56,1.83-3.87.47-1.06.91-2.13,1.33-3.21.63-1.62,1.23-3.25,1.75-4.91.24-.76.46-1.53.68-2.3.58-2.03,1.11-4.07,1.54-6.14.08-.4.14-.81.22-1.21.43-2.32.8-4.66,1.04-7.03l.04-.52c.24-2.58.38-5.18.38-7.8h0c0-2.64-.14-5.24-.38-7.82l-.04-.52c-.24-2.38-.61-4.72-1.04-7.05-.08-.39-.13-.8-.21-1.19-.42-2.08-.96-4.14-1.54-6.17-.22-.76-.44-1.52-.67-2.27-.53-1.67-1.13-3.32-1.77-4.95-.42-1.06-.85-2.12-1.31-3.16-.58-1.33-1.21-2.64-1.86-3.93-.6-1.18-1.22-2.34-1.87-3.49-.66-1.17-1.36-2.33-2.08-3.47-.7-1.1-1.41-2.17-2.16-3.23-.84-1.2-1.72-2.38-2.62-3.54-.71-.9-1.43-1.78-2.17-2.65-1.08-1.27-2.2-2.51-3.37-3.72-.37-.38-.68-.79-1.05-1.16-.37-.37-.79-.69-1.17-1.06-1.2-1.16-2.43-2.27-3.68-3.34-.89-.76-1.79-1.5-2.71-2.22-1.13-.89-2.28-1.74-3.44-2.56-1.09-.77-2.2-1.51-3.33-2.22-1.1-.7-2.22-1.37-3.36-2.01-1.18-.67-2.38-1.31-3.59-1.93-1.26-.63-2.53-1.24-3.82-1.81-1.07-.47-2.16-.92-3.26-1.35-1.61-.62-3.22-1.22-4.86-1.74-.77-.25-1.56-.47-2.34-.7-2.03-.58-4.07-1.11-6.14-1.53-.4-.08-.81-.14-1.21-.22-2.32-.44-4.67-.8-7.04-1.04l-.52-.04c-2.58-.24-5.19-.38-7.81-.38s-5.23.14-7.82.38"/>
+      </svg>
+    </div>
+    <p class="footer-copy">© 2025 JPF Interim Management. Všechna práva vyhrazena.</p>
+  </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+(function() {
+  'use strict';
+
+  /* ---- Header scroll ---- */
+  const hdr = document.getElementById('site-header');
+  window.addEventListener('scroll', function() {
+    hdr.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  /* ---- Reveal system ---- */
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReduced) {
+    const rvEls = document.querySelectorAll('.rv, .rv-left, .rv-right, .rv-scale');
+    if ('IntersectionObserver' in window) {
+      const rvObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            rvObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      rvEls.forEach(function(el) { rvObs.observe(el); });
+    } else {
+      rvEls.forEach(function(el) { el.classList.add('visible'); });
+    }
+  }
+
+  /* ---- Neon border effect ---- */
+  function initNeon() {
+    var wrap = document.getElementById('hero-card-wrap');
+    if (!wrap) return;
+    var rect = wrap.getBoundingClientRect();
+    var W = wrap.offsetWidth;
+    var H = wrap.offsetHeight;
+    if (!W || !H) return;
+
+    var rx = 20;
+    var perimeter = 2 * (W + H) - 8 * rx + 2 * Math.PI * rx;
+    var segLen = perimeter * 0.18;
+    var gap = perimeter - segLen;
+    var dasharray = segLen + ' ' + gap;
+
+    var svg = document.getElementById('neon-svg');
+    var glow = document.getElementById('neon-glow');
+    var core = document.getElementById('neon-core');
+
+    if (!svg || !glow || !core) return;
+
+    // Position the rects
+    var pad = 2;
+    [glow, core].forEach(function(r) {
+      r.setAttribute('x', pad);
+      r.setAttribute('y', pad);
+      r.setAttribute('width', W - pad * 2);
+      r.setAttribute('height', H - pad * 2);
+      r.setAttribute('stroke-dasharray', dasharray);
+      r.style.animation = 'none';
+    });
+
+    wrap.style.setProperty('--neon-perimeter', '-' + perimeter + 'px');
+
+    // Trigger reflow then apply animation
+    void glow.getBoundingClientRect();
+
+    glow.style.animation = 'neonTravel 3.5s linear infinite';
+    core.style.animation = 'neonTravel 3.5s linear infinite';
+  }
+
+  // Init after fonts/layout settle
+  window.addEventListener('load', initNeon);
+  window.addEventListener('resize', initNeon);
+  // Also try after a short delay in case the card isn't rendered at load time
+  setTimeout(initNeon, 300);
+
+  /* ---- Quiz ---- */
+  var answers = [null, null, null, null, null, null];
+  var currentSlide = 0;
+  var isTransitioning = false;
+
+  function checkSlideComplete(slideIndex) {
+    var slideEl = document.querySelector('.quiz-slide[data-slide="' + slideIndex + '"]');
+    if (!slideEl) return;
+    var cards = slideEl.querySelectorAll('.quiz-card');
+    var nextBtn = slideEl.querySelector('.quiz-next');
+    var allAnswered = true;
+    cards.forEach(function(card) {
+      var qi = parseInt(card.getAttribute('data-qi'), 10);
+      if (answers[qi] === null) allAnswered = false;
+    });
+    if (nextBtn) nextBtn.disabled = !allAnswered;
+  }
+
+  function updateStepper(current) {
+    document.querySelectorAll('.step').forEach(function(step) {
+      var idx = parseInt(step.getAttribute('data-step'), 10);
+      step.classList.remove('active', 'done');
+      if (idx === current) step.classList.add('active');
+      else if (idx < current) step.classList.add('done');
+    });
+    // Update bars
+    for (var i = 0; i < 2; i++) {
+      var bar = document.getElementById('bar-' + i + '-' + (i + 1));
+      if (bar) bar.classList.toggle('filled', i < current);
+    }
+  }
+
+  function goToSlide(from, to) {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    var fromEl = document.querySelector('.quiz-slide[data-slide="' + from + '"]');
+    var toEl = document.querySelector('.quiz-slide[data-slide="' + to + '"]');
+    if (!fromEl) { isTransitioning = false; return; }
+
+    fromEl.classList.add('exiting');
+    fromEl.classList.remove('active');
+
+    setTimeout(function() {
+      fromEl.classList.remove('exiting');
+      fromEl.style.display = 'none';
+      if (toEl) {
+        toEl.style.display = 'block';
+        // force reflow
+        void toEl.offsetHeight;
+        toEl.classList.add('active');
+      }
+      currentSlide = to;
+      updateStepper(to);
+      isTransitioning = false;
+    }, 440);
+  }
+
+  function showResult() {
+    var slidesWrap = document.getElementById('quiz-slides');
+    var resultEl = document.getElementById('quiz-result');
+    var scoreEl = document.getElementById('result-score');
+    var labelEl = document.getElementById('result-label');
+    var descEl = document.getElementById('result-desc');
+
+    if (!slidesWrap || !resultEl) return;
+
+    var anoCount = answers.filter(function(a) { return a === 'ano'; }).length;
+
+    slidesWrap.style.display = 'none';
+
+    scoreEl.textContent = anoCount + '/6';
+
+    resultEl.classList.remove('result-ok', 'result-warn', 'result-urgent');
+
+    if (anoCount <= 1) {
+      resultEl.classList.add('result-ok', 'show');
+      labelEl.textContent = 'Zvládáte to sami';
+      descEl.textContent = 'Zdá se, že vaše situace je stabilní. Pokud se to změní, víte, kde nás najít.';
+    } else if (anoCount <= 4) {
+      resultEl.classList.add('result-warn', 'show');
+      labelEl.textContent = 'Je čas se bavit';
+      descEl.textContent = 'Signály jsou jasné. Čím dříve situaci řeknete nahlas, tím snáze se s ní vypořádáme.';
+    } else {
+      resultEl.classList.add('result-urgent', 'show');
+      labelEl.textContent = 'Okamžitě jednat';
+      descEl.textContent = 'Situace vyžaduje rychlou akci. Zavolejte nám — každý den bez podpory vás stojí energii i peníze.';
+    }
+
+    // Update stepper — all done
+    document.querySelectorAll('.step').forEach(function(s) {
+      s.classList.remove('active');
+      s.classList.add('done');
+    });
+    document.querySelectorAll('.step-bar').forEach(function(b) { b.classList.add('filled'); });
+  }
+
+  // Answer buttons
+  document.querySelectorAll('.quiz-card').forEach(function(card) {
+    var qi = parseInt(card.getAttribute('data-qi'), 10);
+    var btns = card.querySelectorAll('.quiz-btn');
+    btns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var ans = btn.getAttribute('data-answer');
+        answers[qi] = ans;
+        card.classList.remove('answered-ano', 'answered-ne');
+        card.classList.add('answered-' + ans);
+        // Determine which slide
+        var slideEl = card.closest('.quiz-slide');
+        if (slideEl) {
+          var slideIdx = parseInt(slideEl.getAttribute('data-slide'), 10);
+          checkSlideComplete(slideIdx);
+        }
+      });
+    });
+  });
+
+  // Next buttons
+  document.querySelectorAll('.quiz-next').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (btn.disabled) return;
+      var slide = parseInt(btn.getAttribute('data-slide'), 10);
+      if (slide < 2) {
+        goToSlide(slide, slide + 1);
+      } else {
+        showResult();
+      }
+    });
+  });
+
+  /* ---- Stats counter ---- */
+  var statsAnimated = false;
+  var statsSection = document.getElementById('sec-stats');
+
+  function animateCounters() {
+    if (statsAnimated) return;
+    statsAnimated = true;
+    var duration = 1800;
+    document.querySelectorAll('.acc[data-target]').forEach(function(el) {
+      var target = parseInt(el.getAttribute('data-target'), 10);
+      var start = performance.now();
+      function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+      function tick(now) {
+        var elapsed = now - start;
+        var progress = Math.min(elapsed / duration, 1);
+        el.textContent = Math.round(easeOut(progress) * target);
+        if (progress < 1) requestAnimationFrame(tick);
+        else el.textContent = target;
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  if (statsSection && 'IntersectionObserver' in window) {
+    var statsObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        animateCounters();
+        statsObs.disconnect();
+      }
+    }, { threshold: 0.2 });
+    statsObs.observe(statsSection);
+  }
+
+})();
+</script>
+</body>
+</html>
