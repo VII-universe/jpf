@@ -1,0 +1,1006 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs" xml:lang="cs">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="description" content="JPF – Profesionální správa a řízení firem. Neradíme. Přebíráme odpovědnost." />
+  <meta name="keywords" content="JPF, management, řízení firmy, konzultace, poradenství" />
+  <title>JPF – Profesionální řízení firem | Neradíme. Přebíráme odpovědnost.</title>
+  <style type="text/css">
+
+    /* === RESET & BASE === */
+    * { margin: 0; padding: 0; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      color: #333333;
+      background-color: #e8ecf0;
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z8BQDwAEgAF/QualIQAAAABJRU5ErkJggg==");
+    }
+    a { color: #1a4a8a; text-decoration: underline; }
+    a:hover { color: #e05500; text-decoration: none; }
+    h1 { font-size: 22px; font-family: Georgia, 'Times New Roman', serif; color: #1a3366; font-weight: bold; }
+    h2 { font-size: 18px; font-family: Georgia, 'Times New Roman', serif; color: #1a3366; margin-bottom: 10px; border-bottom: 1px solid #c8d0dc; padding-bottom: 5px; }
+    h3 { font-size: 14px; color: #1a3366; font-weight: bold; margin-bottom: 6px; }
+    p { line-height: 1.6; margin-bottom: 10px; }
+    img { border: 0; }
+
+    /* === WRAPPER === */
+    #wrapper {
+      width: 980px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-left: 1px solid #b0bac8;
+      border-right: 1px solid #b0bac8;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.15), -2px 0 8px rgba(0,0,0,0.15);
+      -moz-box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+      -webkit-box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+    }
+
+    /* === TOP BAR === */
+    #topbar {
+      background-color: #1a3366;
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#253f7a), to(#1a3366));
+      background-image: -webkit-linear-gradient(top, #253f7a, #1a3366);
+      background-image: linear-gradient(to bottom, #253f7a, #1a3366);
+      height: 28px;
+      line-height: 28px;
+      padding: 0 20px;
+      overflow: hidden;
+    }
+    #topbar span {
+      color: #a8b8d0;
+      font-size: 11px;
+    }
+    #topbar .topbar-right {
+      float: right;
+      color: #a8b8d0;
+      font-size: 11px;
+    }
+    #topbar .topbar-right a { color: #c8d8f0; font-size: 11px; text-decoration: none; }
+    #topbar .topbar-right a:hover { color: #ffffff; text-decoration: underline; }
+
+    /* === HEADER === */
+    #header {
+      background-color: #ffffff;
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f0f4f8));
+      background-image: linear-gradient(to bottom, #ffffff, #f0f4f8);
+      padding: 18px 20px 0 20px;
+      border-bottom: 3px solid #1a3366;
+      overflow: hidden;
+    }
+    #logo {
+      float: left;
+      width: 240px;
+    }
+    #logo .logo-text {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 36px;
+      font-weight: bold;
+      color: #1a3366;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+    #logo .logo-text span {
+      color: #cc5500;
+    }
+    #logo .logo-tagline {
+      font-size: 10px;
+      color: #7a8a9a;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 3px;
+    }
+    #header-right {
+      float: right;
+      text-align: right;
+      padding-bottom: 12px;
+    }
+    #header-right .phone {
+      font-size: 20px;
+      font-weight: bold;
+      color: #cc5500;
+      font-family: Georgia, serif;
+    }
+    #header-right .phone-label {
+      font-size: 10px;
+      color: #888;
+      display: block;
+      margin-bottom: 2px;
+    }
+    #header-contact-btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 7px 18px;
+      background-color: #cc5500;
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#e06010), to(#aa4400));
+      background-image: linear-gradient(to bottom, #e06010, #aa4400);
+      color: #ffffff !important;
+      text-decoration: none !important;
+      font-size: 12px;
+      font-weight: bold;
+      border: 1px solid #883300;
+      border-radius: 3px;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+      -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+    #header-contact-btn:hover {
+      background-color: #e06010;
+      background-image: linear-gradient(to bottom, #f07020, #cc5500);
+    }
+
+    /* === NAVIGATION === */
+    #nav {
+      background-color: #1e4070;
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#2a4e82), to(#1a3a6e));
+      background-image: linear-gradient(to bottom, #2a4e82, #1a3a6e);
+      border-bottom: 2px solid #0d2040;
+      height: 38px;
+      overflow: hidden;
+      clear: both;
+    }
+    #nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0 10px;
+    }
+    #nav ul li { float: left; }
+    #nav ul li a {
+      display: block;
+      padding: 0 18px;
+      height: 38px;
+      line-height: 38px;
+      color: #c8d8f0;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: bold;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    #nav ul li a:hover, #nav ul li.active a {
+      background-color: #cc5500;
+      background-image: linear-gradient(to bottom, #e06010, #aa4400);
+      color: #ffffff;
+    }
+    #nav ul li:first-child a { border-left: 1px solid rgba(255,255,255,0.08); }
+
+    /* === HERO BANNER === */
+    #hero {
+      background-color: #0d2040;
+      background-image: -webkit-gradient(linear, left top, right bottom, from(#0d2040), color-stop(50%, #1a3a6e), to(#0d2040));
+      background-image: linear-gradient(135deg, #0d2040 0%, #1e4a7a 40%, #2a3f60 100%);
+      padding: 40px 30px 44px 30px;
+      border-bottom: 4px solid #cc5500;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      right: 40px;
+      top: 20px;
+      width: 280px;
+      height: 180px;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.04) 0%, transparent 70%);
+    }
+    #hero h1 {
+      font-size: 34px;
+      color: #ffffff;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: bold;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      text-shadow: 1px 2px 4px rgba(0,0,0,0.5);
+    }
+    #hero h1 span { color: #ff8040; }
+    #hero .hero-sub {
+      font-size: 15px;
+      color: #a8c0de;
+      margin-bottom: 24px;
+      max-width: 560px;
+      line-height: 1.7;
+    }
+    #hero .hero-label {
+      font-size: 11px;
+      color: #7090b0;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 14px;
+      font-family: Arial, sans-serif;
+    }
+    .btn-hero {
+      display: inline-block;
+      padding: 11px 28px;
+      background-color: #cc5500;
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#e06010), to(#aa4400));
+      background-image: linear-gradient(to bottom, #e06010, #aa4400);
+      color: #ffffff !important;
+      text-decoration: none !important;
+      font-size: 14px;
+      font-weight: bold;
+      border: 1px solid #772200;
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+      -webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+    .btn-hero:hover {
+      background-image: linear-gradient(to bottom, #f07020, #cc5500);
+    }
+    .btn-secondary {
+      display: inline-block;
+      padding: 10px 22px;
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.3);
+      color: #c0d4ec !important;
+      text-decoration: none !important;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 4px;
+      -webkit-border-radius: 4px;
+      margin-left: 10px;
+    }
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.6);
+      color: #ffffff !important;
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* === CONTENT AREA === */
+    #content-wrap {
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    /* === ALERT BAR === */
+    #alert-bar {
+      background-color: #fef8e8;
+      border: 1px solid #e8c840;
+      border-left: 4px solid #e8a000;
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      font-size: 12px;
+      color: #604010;
+    }
+    #alert-bar strong { color: #804010; }
+
+    /* === MAIN COLUMNS === */
+    #main-col {
+      float: left;
+      width: 640px;
+    }
+    #side-col {
+      float: right;
+      width: 296px;
+    }
+
+    /* === SECTION BOXES === */
+    .section-box {
+      background: #ffffff;
+      border: 1px solid #c8d4e0;
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .section-box .box-header {
+      background-color: #e8eef6;
+      background-image: linear-gradient(to bottom, #f0f5fb, #dde6f0);
+      padding: 9px 15px;
+      border-bottom: 1px solid #c0ccdc;
+    }
+    .section-box .box-header h2 {
+      font-size: 15px;
+      font-family: Georgia, serif;
+      color: #1a3366;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .section-box .box-content {
+      padding: 15px;
+    }
+
+    /* === PAIN SECTION === */
+    .pain-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .pain-list li {
+      padding: 10px 10px 10px 36px;
+      border-bottom: 1px solid #eef0f4;
+      position: relative;
+      font-size: 13px;
+      color: #444;
+      line-height: 1.5;
+    }
+    .pain-list li:last-child { border-bottom: none; }
+    .pain-list li::before {
+      content: '✖';
+      position: absolute;
+      left: 10px;
+      top: 11px;
+      color: #cc3300;
+      font-size: 13px;
+    }
+    .pain-list li strong { color: #1a3366; }
+
+    /* === SOLUTION GRID === */
+    .sol-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+    .sol-table td {
+      width: 50%;
+      vertical-align: top;
+      padding: 0 8px 0 0;
+    }
+    .sol-table td:last-child { padding-right: 0; padding-left: 8px; }
+    .sol-card-old {
+      background: #f8fafc;
+      border: 1px solid #c8d4e0;
+      border-top: 3px solid #1a3366;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+    .sol-card-old .card-icon {
+      width: 32px;
+      height: 32px;
+      background: #1a3366;
+      border-radius: 50%;
+      -webkit-border-radius: 50%;
+      display: inline-block;
+      text-align: center;
+      line-height: 32px;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .sol-card-old h3 { color: #1a3366; font-size: 13px; margin-bottom: 6px; }
+    .sol-card-old p { font-size: 12px; color: #555; margin: 0; line-height: 1.5; }
+
+    /* === STATS TABLE === */
+    .stats-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+    .stats-table td {
+      text-align: center;
+      padding: 14px 8px;
+      border: 1px solid #dde4ee;
+      background: #f4f7fb;
+      vertical-align: middle;
+    }
+    .stats-table td:hover { background: #eef2f8; }
+    .stats-num {
+      font-size: 32px;
+      font-weight: bold;
+      font-family: Georgia, serif;
+      color: #1a3366;
+      display: block;
+      line-height: 1;
+    }
+    .stats-num sup { font-size: 16px; color: #cc5500; }
+    .stats-lbl { font-size: 11px; color: #778899; display: block; margin-top: 4px; line-height: 1.4; }
+
+    /* === QUIZ / FORM === */
+    .quiz-old {
+      background: #f8f4ee;
+      border: 1px solid #ddd0b8;
+      border-top: 3px solid #cc5500;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    .quiz-old h2 { color: #cc5500; border-color: #ddd0b8; font-size: 17px; }
+    .quiz-progress {
+      background: #e0e8f0;
+      border: 1px solid #c0ccdc;
+      border-radius: 10px;
+      height: 12px;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+    .quiz-progress-bar {
+      height: 100%;
+      width: 20%;
+      background-color: #cc5500;
+      background-image: linear-gradient(to bottom, #e06010, #aa4400);
+      border-radius: 10px;
+      transition: width 0.4s ease;
+    }
+    .quiz-question {
+      font-size: 14px;
+      font-weight: bold;
+      color: #1a3366;
+      margin-bottom: 14px;
+      font-family: Georgia, serif;
+    }
+    .quiz-btns { overflow: hidden; }
+    .quiz-btn-ano, .quiz-btn-ne {
+      display: inline-block;
+      padding: 9px 24px;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      margin-right: 8px;
+    }
+    .quiz-btn-ano {
+      background-image: linear-gradient(to bottom, #e06010, #aa4400);
+      color: white;
+      border: 1px solid #883300;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .quiz-btn-ne {
+      background-image: linear-gradient(to bottom, #f0f4f8, #dde4ee);
+      color: #334466;
+      border: 1px solid #b0bcc8;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    }
+    .quiz-btn-ano:hover { background-image: linear-gradient(to bottom, #f07020, #cc5500); }
+    .quiz-btn-ne:hover { background-image: linear-gradient(to bottom, #ffffff, #e8eef6); }
+
+    /* === SIDEBAR === */
+    .sidebar-widget {
+      background: #ffffff;
+      border: 1px solid #c8d4e0;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+    .sidebar-widget .widget-title {
+      background-image: linear-gradient(to bottom, #2a4e82, #1a3a6e);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 8px 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .sidebar-widget .widget-body {
+      padding: 12px;
+    }
+    .sidebar-cta {
+      background-color: #fff8f0;
+      border: 1px solid #e8c8a0;
+      border-top: 3px solid #cc5500;
+    }
+    .sidebar-cta .widget-title {
+      background-image: linear-gradient(to bottom, #e06010, #aa4400);
+    }
+    .sidebar-cta .widget-body {
+      text-align: center;
+      padding: 16px 12px;
+    }
+    .sidebar-cta p { font-size: 12px; color: #665040; margin-bottom: 12px; }
+    .sidebar-cta .big-text {
+      font-size: 17px;
+      font-family: Georgia, serif;
+      color: #1a3366;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .contact-form-old label {
+      display: block;
+      font-size: 11px;
+      font-weight: bold;
+      color: #445566;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+    }
+    .contact-form-old input, .contact-form-old textarea {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid #b0bcc8;
+      border-radius: 2px;
+      font-size: 13px;
+      font-family: Arial, sans-serif;
+      color: #333;
+      background: #fafbfc;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      margin-bottom: 10px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .contact-form-old input:focus, .contact-form-old textarea:focus {
+      border-color: #5080c0;
+      background: #fff;
+      outline: none;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.08), 0 0 4px rgba(60,100,200,0.2);
+    }
+    .contact-form-old textarea { height: 80px; resize: vertical; }
+    .btn-submit {
+      display: inline-block;
+      padding: 8px 20px;
+      background-image: linear-gradient(to bottom, #2a5090, #1a3a70);
+      color: white;
+      font-size: 13px;
+      font-weight: bold;
+      border: 1px solid #0d2050;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+    .btn-submit:hover { background-image: linear-gradient(to bottom, #3060a8, #2048880); }
+
+    .checklist { list-style: none; padding: 0; margin: 0; }
+    .checklist li {
+      padding: 5px 5px 5px 22px;
+      position: relative;
+      font-size: 12px;
+      color: #445566;
+      border-bottom: 1px dotted #dde4ee;
+    }
+    .checklist li:last-child { border: none; }
+    .checklist li::before {
+      content: '✔';
+      position: absolute;
+      left: 4px;
+      color: #2a7030;
+      font-size: 12px;
+    }
+
+    /* === PROMISE === */
+    #promise {
+      background-color: #0d2040;
+      background-image: linear-gradient(135deg, #0d2040, #1e4070);
+      border-top: 3px solid #cc5500;
+      border-bottom: 3px solid #cc5500;
+      padding: 30px 30px;
+      margin: 0 -20px 20px -20px;
+      text-align: center;
+    }
+    #promise h2 {
+      font-size: 22px;
+      font-family: Georgia, serif;
+      color: #ffffff;
+      border: none;
+      margin-bottom: 10px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+    #promise h2 em { font-style: normal; color: #ff8040; }
+    #promise p { color: #a8c0de; font-size: 13px; max-width: 520px; margin: 0 auto 18px; line-height: 1.7; }
+
+    /* === BREADCRUMBS === */
+    #breadcrumb {
+      padding: 6px 20px;
+      font-size: 11px;
+      color: #888;
+      background: #f4f6f8;
+      border-bottom: 1px solid #dde4ee;
+    }
+    #breadcrumb a { color: #1a4a8a; }
+
+    /* === FOOTER === */
+    #footer-widgets {
+      background-color: #1a2e50;
+      background-image: linear-gradient(to bottom, #1e3460, #111e38);
+      padding: 20px;
+      overflow: hidden;
+      border-top: 3px solid #0d1a30;
+    }
+    .footer-col {
+      float: left;
+      width: 220px;
+      margin-right: 30px;
+    }
+    .footer-col:last-child { margin-right: 0; }
+    .footer-col h4 {
+      color: #7090b8;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #2a4060;
+    }
+    .footer-col p { color: #6888a8; font-size: 12px; line-height: 1.6; }
+    .footer-col ul { list-style: none; padding: 0; }
+    .footer-col ul li { margin-bottom: 5px; }
+    .footer-col ul li a { color: #6888a8; font-size: 12px; text-decoration: none; }
+    .footer-col ul li a:hover { color: #ffffff; }
+    .footer-col ul li::before { content: '›  '; color: #cc5500; }
+    .footer-logo-text {
+      font-family: Georgia, serif;
+      font-size: 28px;
+      font-weight: bold;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: -1px;
+    }
+    .footer-logo-text span { color: rgba(204,85,0,0.4); }
+
+    #footer-bottom {
+      background: #0a1220;
+      padding: 10px 20px;
+      overflow: hidden;
+      border-top: 1px solid #1a2a40;
+    }
+    #footer-bottom p {
+      color: #445566;
+      font-size: 11px;
+      float: left;
+      margin: 0;
+    }
+    #footer-bottom .footer-links {
+      float: right;
+      font-size: 11px;
+    }
+    #footer-bottom .footer-links a { color: #445566; margin-left: 14px; text-decoration: none; }
+    #footer-bottom .footer-links a:hover { color: #8090a8; }
+
+    /* === UTILITIES === */
+    .clearfix::after { content: ''; display: table; clear: both; }
+    .divider { border: none; border-top: 1px solid #dde4ee; margin: 16px 0; }
+    .badge-new {
+      display: inline-block;
+      background: #cc3300;
+      color: white;
+      font-size: 9px;
+      font-weight: bold;
+      padding: 1px 5px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      vertical-align: middle;
+      margin-left: 5px;
+    }
+    .text-orange { color: #cc5500; font-weight: bold; }
+    .small-note { font-size: 11px; color: #778899; font-style: italic; }
+
+  </style>
+</head>
+<body>
+
+<div id="wrapper">
+
+  <!-- TOP BAR -->
+  <div id="topbar">
+    <span>Vítejte na stránkách JPF – profesionální řízení firem</span>
+    <div class="topbar-right">
+      <a href="#">Mapa webu</a> |
+      <a href="#">Kontakt</a> |
+      <a href="#">Kariéra</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div id="header" class="clearfix">
+    <div id="logo">
+      <div class="logo-text">J<span>P</span>F</div>
+      <div class="logo-tagline">Řízení &amp; Management firem</div>
+    </div>
+    <div id="header-right">
+      <span class="phone-label">Zavolejte nám:</span>
+      <div class="phone">+420 XXX XXX XXX</div>
+      <a href="#kontakt" id="header-contact-btn">&#9993; Nezávazná konzultace</a>
+    </div>
+    <!-- NAVIGATION -->
+    <div id="nav" style="margin: 0 -20px;">
+      <ul class="clearfix">
+        <li class="active"><a href="#">Úvod</a></li>
+        <li><a href="#problemy">Vaše problémy</a></li>
+        <li><a href="#reseni">Naše řešení</a></li>
+        <li><a href="#o-nas">O nás</a></li>
+        <li><a href="#reference">Reference</a></li>
+        <li><a href="#dotaznik">Dotazník <span class="badge-new">Nové</span></a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div id="breadcrumb">
+    <a href="#">Úvod</a> &raquo; Hlavní stránka
+  </div>
+
+  <!-- HERO BANNER -->
+  <div id="hero">
+    <p class="hero-label">&#9658; Profesionální firemní management</p>
+    <h1>Neradíme Vám.<br /><span>Přebíráme odpovědnost.</span></h1>
+    <p class="hero-sub">
+      Jsme partneři, kteří stojí po vašem boku v první linii. Neziskovky a manažerské výmluvy nás nezajímají — zajímají nás výsledky vaší firmy.
+    </p>
+    <a href="#dotaznik" class="btn-hero">&#9658; Zjistit jak na tom jsme</a>
+    <a href="#o-nas" class="btn-secondary">Více o JPF &raquo;</a>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="content-wrap">
+
+    <!-- ALERT / NOTICE -->
+    <div id="alert-bar">
+      <strong>&#9888; Poznáváte se?</strong> Pokud vás trápí micromanagement, únava z rozhodování nebo strach z platební neschopnosti — čtěte dál. Máme řešení.
+    </div>
+
+    <div class="clearfix">
+
+      <!-- MAIN COLUMN -->
+      <div id="main-col">
+
+        <!-- PAIN POINTS -->
+        <div class="section-box" id="problemy">
+          <div class="box-header">
+            <h2>&#9650; Trápí Vás některý z těchto problémů?</h2>
+          </div>
+          <div class="box-content">
+            <p>Rozpoznáváte se v některé z těchto situací? Nejste sami. Pracujeme s desítkami podnikatelů, kteří čelili přesně těmto výzvám.</p>
+            <ul class="pain-list">
+              <li>Máte pocit, že <strong>bez vás nikdo neví</strong>, co má dělat?</li>
+              <li>Polije vás <strong>studený pot</strong>, když zazvoní pevná linka nebo přijde datovka?</li>
+              <li>Dochází vám <strong>síla na další těžká rozhodnutí?</strong></li>
+              <li>Nevíte, <strong>z čeho zaplatíte</strong> příští měsíc?</li>
+              <li>Bere vám firma <strong>všechen čas i energii?</strong></li>
+            </ul>
+            <hr class="divider" />
+            <p class="small-note">* Výše uvedené situace řešíme každý den. Kontaktujte nás pro nezávaznou konzultaci.</p>
+          </div>
+        </div>
+
+        <!-- QUIZ -->
+        <div class="quiz-old" id="dotaznik">
+          <h2>&#9998; A jak jste na tom vy?</h2>
+          <p style="font-size:12px; color:#664422; margin-bottom:14px;">Odpovězte na 5 rychlých otázek a zjistěte, jak vážná je situace vaší firmy.</p>
+          <div class="quiz-progress">
+            <div class="quiz-progress-bar" id="qprogress" style="width:20%"></div>
+          </div>
+          <p style="font-size:11px; color:#998877; margin-bottom:12px;" id="qcount">Otázka 1 z 5</p>
+          <p class="quiz-question" id="qquestion">Máte pocit, že bez vás nikdo neví, co má dělat?</p>
+          <div class="quiz-btns">
+            <button class="quiz-btn-ano" onclick="nextQ(true)">&#10003; Ano, rozpoznávám se</button>
+            <button class="quiz-btn-ne" onclick="nextQ(false)">&#10007; Ne, to se mě netýká</button>
+          </div>
+          <div id="quiz-result" style="display:none; margin-top:16px; padding:14px; background:#fff8f0; border:1px solid #e0c090; border-radius:3px;">
+            <strong style="color:#cc5500; font-size:14px;">Výsledek: </strong>
+            <span id="quiz-result-text" style="color:#443322; font-size:13px;"></span>
+            <br /><br />
+            <a href="#kontakt" class="btn-hero" style="font-size:13px; padding:8px 20px;">&#9658; Domluvit nezávaznou konzultaci</a>
+          </div>
+        </div>
+
+        <!-- SOLUTIONS -->
+        <div class="section-box" id="reseni">
+          <div class="box-header">
+            <h2>&#9654; Naše řešení pro vaši firmu</h2>
+          </div>
+          <div class="box-content">
+            <p>Zastavíme skryté ztráty, nastavíme funkční systém a přebíráme každodenní exekutivu — abyste mohli být znovu majitel, ne věčný hasič.</p>
+            <table class="sol-table">
+              <tr>
+                <td>
+                  <div class="sol-card-old">
+                    <div class="card-icon">&#9776;</div>
+                    <h3>Systém a odpovědnost lidí</h3>
+                    <p>Nastavíme systém, ve kterém lidé převezmou odpovědnost a vy získáte prostor firmu znovu posouvat.</p>
+                  </div>
+                </td>
+                <td>
+                  <div class="sol-card-old">
+                    <div class="card-icon">&#9737;</div>
+                    <h3>Odpovědnost neseme s vámi</h3>
+                    <p>Odpovědnost poneseme s vámi, abyste se mohli znovu těšit do práce.</p>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="sol-card-old">
+                    <div class="card-icon">&#9670;</div>
+                    <h3>Každodenní exekutiva</h3>
+                    <p>Převezmeme každodenní exekutivu, abyste mohli být znovu majitel, ne věčný operativec.</p>
+                  </div>
+                </td>
+                <td>
+                  <div class="sol-card-old">
+                    <div class="card-icon">&#9993;</div>
+                    <h3>Komunikace s úřady</h3>
+                    <p>Komunikaci s úřady, bankami i institucemi převezmeme za vás.</p>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- PROMISE -->
+        <div id="promise">
+          <h2>Úspěch vaší firmy je <em>i naším úspěchem.</em></h2>
+          <p>Za naši práci platíte pouze z toho, co vám prokazatelně pomůžeme vydělat. Náš závazek není jen slogan — je to základ každé naší spolupráce.</p>
+          <a href="#kontakt" class="btn-hero">&#9658; Zjistit jak na tom jste</a>
+        </div>
+
+        <!-- STATS -->
+        <div class="section-box">
+          <div class="box-header">
+            <h2>&#9733; Většinu firemních problémů jsme již někdy viděli</h2>
+          </div>
+          <div class="box-content">
+            <table class="stats-table">
+              <tr>
+                <td>
+                  <span class="stats-num">20<sup>+</sup></span>
+                  <span class="stats-lbl">let zkušeností<br />v oboru</span>
+                </td>
+                <td>
+                  <span class="stats-num">300<sup>+</sup></span>
+                  <span class="stats-lbl">firem prošlo<br />naší rukou</span>
+                </td>
+                <td>
+                  <span class="stats-num">92<sup>%</sup></span>
+                  <span class="stats-lbl">klientů dosáhlo<br />cílů do 12 měsíců</span>
+                </td>
+                <td>
+                  <span class="stats-num">4.9<sup>/5</sup></span>
+                  <span class="stats-lbl">hodnocení<br />spokojenosti</span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <!-- END MAIN COL -->
+
+      <!-- SIDEBAR -->
+      <div id="side-col">
+
+        <!-- CTA WIDGET -->
+        <div class="sidebar-widget sidebar-cta">
+          <div class="widget-title">&#9658; Domluvit konzultaci ZDARMA</div>
+          <div class="widget-body">
+            <p class="big-text">Víte jak na tom jste?</p>
+            <p>Nezávazná 30minutová konzultace. Bez závazků, bez skrytých poplatků.</p>
+            <a href="#kontakt" class="btn-hero" style="font-size:12px; padding:8px 16px;">&#9658; Kontaktovat nás</a>
+          </div>
+        </div>
+
+        <!-- CHECKLIST WIDGET -->
+        <div class="sidebar-widget">
+          <div class="widget-title">&#10003; Proč zvolit JPF?</div>
+          <div class="widget-body">
+            <ul class="checklist">
+              <li>Výsledky platíte až po jejich dosažení</li>
+              <li>20+ let zkušeností v řízení firem</li>
+              <li>Jsme v první linii, ne za stolem</li>
+              <li>300+ spokojených klientů</li>
+              <li>Diskrétní a profesionální přístup</li>
+              <li>Bezplatná úvodní konzultace</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CONTACT FORM WIDGET -->
+        <div class="sidebar-widget" id="kontakt">
+          <div class="widget-title">&#9993; Rychlý kontakt</div>
+          <div class="widget-body">
+            <form class="contact-form-old" onsubmit="return false;">
+              <label for="name">Vaše jméno *</label>
+              <input type="text" id="name" name="name" placeholder="Jan Novák" />
+              <label for="email">E-mail *</label>
+              <input type="email" id="email" name="email" placeholder="jan@firma.cz" />
+              <label for="phone">Telefon</label>
+              <input type="tel" id="phone" name="phone" placeholder="+420 xxx xxx xxx" />
+              <label for="msg">Zpráva</label>
+              <textarea id="msg" name="msg" placeholder="Stručně popište situaci vaší firmy..."></textarea>
+              <button type="submit" class="btn-submit">&#9658; Odeslat zprávu</button>
+              <p class="small-note" style="margin-top:8px;">* Povinná pole. Odpovíme do 24 hodin.</p>
+            </form>
+          </div>
+        </div>
+
+        <!-- ABOUT WIDGET -->
+        <div class="sidebar-widget" id="o-nas">
+          <div class="widget-title">&#9670; O společnosti JPF</div>
+          <div class="widget-body">
+            <p style="font-size:12px; color:#445566; line-height:1.6;">
+              Vybudovali jste firmu. Teď ji s vámi povedeme dál. JPF je tým zkušených manažerů, kteří přebírají skutečnou odpovědnost za výsledky — ne jen dávají rady.
+            </p>
+            <a href="#" style="font-size:12px; color:#1a4a8a;">Více o nás &raquo;</a>
+          </div>
+        </div>
+
+      </div>
+      <!-- END SIDEBAR -->
+
+    </div>
+    <!-- END CLEARFIX -->
+
+  </div>
+  <!-- END CONTENT WRAP -->
+
+  <!-- FOOTER WIDGETS -->
+  <div id="footer-widgets" class="clearfix">
+    <div class="footer-col">
+      <div class="footer-logo-text">J<span>P</span>F</div>
+      <p style="margin-top:8px;">Profesionální řízení a správa firem. Po vašem boku v první linii.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigace</h4>
+      <ul>
+        <li><a href="#">Úvod</a></li>
+        <li><a href="#problemy">Vaše problémy</a></li>
+        <li><a href="#reseni">Naše řešení</a></li>
+        <li><a href="#dotaznik">Dotazník</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontaktní údaje</h4>
+      <p>JPF s.r.o.<br />
+      Praha, Česká republika<br />
+      Tel: +420 XXX XXX XXX<br />
+      E-mail: info@jpf.cz</p>
+    </div>
+    <div class="footer-col">
+      <h4>Pracovní doba</h4>
+      <p>Po – Pá: 8:00 – 18:00<br />
+      So: Po domluvě<br />
+      Ne: Zavřeno</p>
+      <p style="margin-top:8px;"><a href="#kontakt" style="color:#cc5500; font-weight:bold; text-decoration:none;">&#9658; Nezávazná konzultace</a></p>
+    </div>
+  </div>
+
+  <!-- FOOTER BOTTOM -->
+  <div id="footer-bottom" class="clearfix">
+    <p>&copy; 2010 JPF s.r.o. | Všechna práva vyhrazena</p>
+    <div class="footer-links">
+      <a href="#">Ochrana osobních údajů</a>
+      <a href="#">Obchodní podmínky</a>
+      <a href="#">Mapa webu</a>
+    </div>
+  </div>
+
+</div>
+<!-- END WRAPPER -->
+
+<script type="text/javascript">
+  var questions = [
+    "Máte pocit, že bez vás nikdo neví, co má dělat?",
+    "Polije vás studený pot, když zazvoní pevná linka nebo přijde datovka?",
+    "Dochází vám síla na další těžká rozhodnutí?",
+    "Nevíte, z čeho zaplatíte příští měsíc?",
+    "Bere vám firma všechen čas i energii?"
+  ];
+  var score = 0, current = 0;
+
+  function nextQ(ans) {
+    if (ans) score++;
+    current++;
+    if (current >= questions.length) {
+      document.getElementById('qquestion').style.display = 'none';
+      document.querySelector('.quiz-btns').style.display = 'none';
+      document.getElementById('qcount').style.display = 'none';
+      document.getElementById('qprogress').style.width = '100%';
+      var result = document.getElementById('quiz-result');
+      var txt = document.getElementById('quiz-result-text');
+      result.style.display = 'block';
+      if (score >= 4) {
+        txt.innerHTML = 'Vaše firma potřebuje okamžitou pomoc. Kontaktujte nás ještě dnes — každý den prodlení zvyšuje cenu za změnu.';
+      } else if (score >= 2) {
+        txt.innerHTML = 'Situace vyžaduje pozornost. Nezávazný hovor nezavazuje k ničemu, ale může změnit hodně.';
+      } else {
+        txt.innerHTML = 'Gratulujeme! Vaše firma je na dobré cestě. Rádi vám pomůžeme udržet tento směr.';
+      }
+    } else {
+      document.getElementById('qquestion').innerText = questions[current];
+      document.getElementById('qcount').innerText = 'Otázka ' + (current + 1) + ' z 5';
+      document.getElementById('qprogress').style.width = ((current + 1) * 20) + '%';
+    }
+  }
+</script>
+
+</body>
+</html>
