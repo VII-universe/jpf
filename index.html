@@ -679,12 +679,12 @@
 
     .pain-num {
       font-family: var(--fh);
-      font-size: 11px;
+      font-size: clamp(15px, 1.4vw, 18px);
       font-weight: 700;
       letter-spacing: .14em;
       color: rgba(255, 255, 255, .18);
       flex-shrink: 0;
-      width: 26px;
+      width: 36px;
       transition: color .3s;
     }
 
@@ -708,7 +708,8 @@
       color: var(--orange);
     }
 
-    .pain-ambient-num {
+    .pain-ambient-num,
+    .sol-ambient-num {
       position: absolute;
       right: -3vw;
       bottom: 100px;
@@ -833,14 +834,14 @@
       border: none;
       border-radius: 7px;
       cursor: pointer;
-      box-shadow: 0 8px 40px rgba(234, 91, 12, .45), 0 2px 8px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15);
+      box-shadow: 0 8px 40px rgba(234, 91, 12, .45), 0 2px 8px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .15);
       transition: background .25s, box-shadow .25s, transform .2s;
       animation: quizBtnPulse 1.1s cubic-bezier(.16, 1, .3, 1) 3.5s 1 both;
     }
 
     .btn-quiz-reveal:hover {
       background: linear-gradient(135deg, #f56820, #d45510);
-      box-shadow: 0 12px 56px rgba(234, 91, 12, .6), 0 4px 12px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.2);
+      box-shadow: 0 12px 56px rgba(234, 91, 12, .6), 0 4px 12px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .2);
       transform: translateY(-3px);
     }
 
@@ -1344,9 +1345,9 @@
     }
 
     /* ── SOLUTION ── */
+    /* ── SOLUTION SCROLLER ── */
     .sec-sol {
       background: var(--dark2);
-      padding: clamp(80px, 10vw, 140px) 0;
       position: relative;
       margin-top: -1px;
     }
@@ -1363,164 +1364,141 @@
       z-index: 1;
     }
 
-    .sol-hdr {
-      text-align: center;
-      margin-bottom: clamp(44px, 6vw, 72px);
+    .sol-scroller {
+      height: 320vh;
     }
 
-    .sec-h {
+    .sol-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-bottom: 80px;
+      background: var(--dark2);
+      overflow: hidden;
+    }
+
+    .sol-sticky::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 220px;
+      background: linear-gradient(to bottom, transparent, var(--dark2));
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .sol-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    .sol-hdr-inline {
+      text-align: center;
+      margin-bottom: clamp(24px, 3.5vw, 40px);
+    }
+
+    .sol-h2 {
       font-family: var(--fh);
       font-size: clamp(26px, 4vw, 46px);
       font-weight: 800;
       color: #fff;
       letter-spacing: -.025em;
       line-height: 1.1;
+      margin: 0;
     }
 
-    .sec-h em {
-      font-style: normal;
+    .sol-list {
+      list-style: none;
+      margin: 0 auto;
+      padding: 0;
+      max-width: 860px;
+    }
+
+    .sol-item {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .055);
+      opacity: 0;
+      transform: translateX(-32px);
+      transition: opacity .55s cubic-bezier(.16, 1, .3, 1), transform .55s cubic-bezier(.16, 1, .3, 1);
+    }
+
+    .sol-item:first-child {
+      border-top: 1px solid rgba(255, 255, 255, .055);
+    }
+
+    .sol-item:nth-child(2) {
+      transition-delay: .08s;
+    }
+
+    .sol-item:nth-child(3) {
+      transition-delay: .16s;
+    }
+
+    .sol-item:nth-child(4) {
+      transition-delay: .24s;
+    }
+
+    .sol-item:nth-child(5) {
+      transition-delay: .32s;
+    }
+
+    .sol-item.entered {
+      opacity: .22;
+      transform: none;
+    }
+
+    .sol-item.lit {
+      opacity: 1;
+      transform: translateX(12px);
+      transition-delay: 0s !important;
+    }
+
+    .sol-item.lit .sol-num {
       color: var(--orange);
     }
 
-    .sol-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: clamp(14px, 2.5vw, 24px);
-      margin-bottom: clamp(20px, 3vw, 36px);
-    }
-
-    .sol-card {
-      background: rgba(255, 255, 255, .03);
-      border: 1px solid rgba(255, 255, 255, .07);
-      border-radius: 18px;
-      padding: clamp(24px, 3vw, 38px);
-      position: relative;
-      overflow: hidden;
-      transition: border-color .25s, transform .25s, box-shadow .25s;
-    }
-
-    .sol-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(234, 91, 12, .07), transparent 55%);
-      opacity: 0;
-      transition: opacity .3s;
-    }
-
-    .sol-card::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--orange), var(--blue));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .35s cubic-bezier(.16, 1, .3, 1);
-    }
-
-    .sol-card:hover {
-      border-color: rgba(234, 91, 12, .28);
-      transform: translateY(-5px);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
-    }
-
-    .sol-card:hover::before {
-      opacity: 1;
-    }
-
-    .sol-card:hover::after {
-      transform: scaleX(1);
-    }
-
-    .sol-ico {
-      width: 50px;
-      height: 50px;
-      border-radius: 13px;
-      background: rgba(234, 91, 12, .1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    .sol-ico svg {
-      width: 22px;
-      height: 22px;
-      stroke: var(--orange);
-    }
-
-    .sol-area {
-      font-family: var(--fh);
-      font-size: clamp(20px, 2.2vw, 26px);
-      font-weight: 700;
+    .sol-item.lit .sol-q {
       color: #fff;
-      margin-bottom: 10px;
-      letter-spacing: -.015em;
     }
 
-    .sol-desc {
-      font-size: 15px;
-      color: rgba(255, 255, 255, .52);
-      line-height: 1.65;
-      margin: 0;
-    }
-
-    /* Featured closer */
-    .sol-featured {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      padding: clamp(22px, 3vw, 32px) clamp(24px, 4vw, 44px);
-      background: linear-gradient(135deg, rgba(34, 60, 126, .18) 0%, rgba(34, 60, 126, .08) 100%);
-      border: 1px solid rgba(34, 60, 126, .35);
-      border-radius: 18px;
-      transition: border-color .25s, background .25s;
-    }
-
-    .sol-featured:hover {
-      border-color: rgba(34, 60, 126, .55);
-      background: linear-gradient(135deg, rgba(34, 60, 126, .25) 0%, rgba(34, 60, 126, .12) 100%);
-    }
-
-    .sol-feat-ico {
-      width: 52px;
-      height: 52px;
-      flex-shrink: 0;
-      border-radius: 14px;
-      background: rgba(34, 60, 126, .25);
-      border: 1px solid rgba(34, 60, 126, .4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .sol-feat-ico svg {
-      width: 22px;
-      height: 22px;
-      stroke: var(--blue);
-    }
-
-    .sol-feat-label {
+    .sol-num {
       font-family: var(--fh);
-      font-size: 10px;
-      font-weight: 600;
+      font-size: clamp(15px, 1.4vw, 18px);
+      font-weight: 700;
       letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 6px;
+      color: rgba(255, 255, 255, .18);
+      flex-shrink: 0;
+      width: 36px;
+      transition: color .3s;
     }
 
-    .sol-feat-text {
+    .sol-q {
       font-family: var(--fh);
-      font-size: clamp(18px, 2.5vw, 24px);
+      font-size: clamp(18px, 2.4vw, 28px);
       font-weight: 700;
-      color: #fff;
-      margin: 0;
+      color: rgba(255, 255, 255, .35);
+      line-height: 1.3;
       letter-spacing: -.015em;
+      transition: color .3s;
+    }
+
+    .sol-q em {
+      font-style: normal;
+      color: rgba(234, 91, 12, .4);
+      transition: color .3s;
+    }
+
+    .sol-item.lit .sol-q em {
+      color: var(--orange);
     }
 
     /* ── BANNER ── */
@@ -1778,10 +1756,158 @@
     }
 
     .stat-lbl {
-      font-size: 13px;
-      color: rgba(255, 255, 255, .42);
+      font-size: clamp(14px, 1.4vw, 18px);
+      color: rgba(255, 255, 255, .55);
       font-family: var(--fh);
       line-height: 1.45;
+    }
+
+    /* ── FAQ ── */
+    .sec-faq {
+      background: var(--dark);
+      padding: clamp(80px, 10vw, 140px) 0;
+      position: relative;
+    }
+
+    .sec-faq::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 0;
+      right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, #090d18, transparent);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .sec-faq::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 200px;
+      background: linear-gradient(to top, #070c1a, transparent);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .faq-hdr {
+      text-align: center;
+      margin-bottom: clamp(44px, 6vw, 72px);
+    }
+
+    .faq-h {
+      font-family: var(--fh);
+      font-size: clamp(26px, 4vw, 46px);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.025em;
+      line-height: 1.1;
+      margin: 0;
+    }
+
+    .faq-h em {
+      font-style: normal;
+      color: var(--orange);
+    }
+
+    .faq-list {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .faq-item:first-child {
+      border-top: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 24px 0;
+      font-family: var(--fh);
+      font-size: clamp(16px, 1.8vw, 20px);
+      font-weight: 700;
+      color: rgba(255, 255, 255, .85);
+      letter-spacing: -.01em;
+      text-align: left;
+      transition: color .2s;
+    }
+
+    .faq-q:hover {
+      color: #fff;
+    }
+
+    .faq-q[aria-expanded="true"] {
+      color: var(--orange);
+    }
+
+    .faq-icon {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, .18);
+      position: relative;
+      transition: border-color .2s, transform .35s cubic-bezier(.16, 1, .3, 1), background .2s;
+    }
+
+    .faq-icon::before,
+    .faq-icon::after {
+      content: '';
+      position: absolute;
+      background: rgba(255, 255, 255, .7);
+      border-radius: 2px;
+      top: 50%;
+      left: 50%;
+      transition: transform .35s cubic-bezier(.16, 1, .3, 1), background .2s, opacity .2s;
+    }
+
+    .faq-icon::before {
+      width: 10px;
+      height: 1.5px;
+      transform: translate(-50%, -50%);
+    }
+
+    .faq-icon::after {
+      width: 1.5px;
+      height: 10px;
+      transform: translate(-50%, -50%);
+    }
+
+    .faq-q[aria-expanded="true"] .faq-icon {
+      border-color: var(--orange);
+      background: rgba(234, 91, 12, .12);
+      transform: rotate(45deg);
+    }
+
+    .faq-q[aria-expanded="true"] .faq-icon::before,
+    .faq-q[aria-expanded="true"] .faq-icon::after {
+      background: var(--orange);
+    }
+
+    .faq-a {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height .5s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .faq-a-inner {
+      font-size: clamp(14px, 1.4vw, 16px);
+      color: rgba(255, 255, 255, .5);
+      line-height: 1.7;
+      padding-bottom: 24px;
     }
 
     /* ── CTA ── */
@@ -1936,15 +2062,6 @@
 
     /* Tablet */
     @media (max-width: 900px) {
-      .sol-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .sol-featured {
-        flex-direction: column;
-        text-align: center;
-      }
-
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -2003,11 +2120,6 @@
         max-width: 100%;
       }
 
-      /* Solution */
-      .sol-grid {
-        grid-template-columns: 1fr;
-      }
-
       /* Stats */
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -2039,9 +2151,9 @@
       .pain-item,
       .quiz-hdr,
       .eyebrow,
-      .sol-hdr,
-      .sol-card,
-      .sec-h,
+      .sol-hdr-inline,
+      .sol-inner,
+      .sol-list,
       .promise-center,
       .stats-hdr,
       .cta-inner,
@@ -2202,12 +2314,21 @@
       }
 
       /* Solution */
-      .sol-featured {
-        gap: 14px;
+      .sol-sticky {
+        padding-bottom: 60px;
       }
 
-      .sol-card {
-        border-radius: 14px;
+      .sol-list {
+        padding: 0 4px;
+      }
+
+      .sol-item {
+        gap: 10px;
+        padding: 14px 0;
+      }
+
+      .sol-q {
+        font-size: clamp(15px, 4.5vw, 20px);
       }
 
       /* Banner */
@@ -2315,7 +2436,7 @@
         <div class="hero-intro" id="hero-intro" aria-hidden="true">
           <div class="hero-eyebrow rv">Řídíme firmy</div>
           <h1 class="hero-h1 rv d1">
-            Neradíme Vám.<br>
+            Neradíme.<br>
             <span>Přebíráme odpovědnost.</span>
           </h1>
           <p class="hero-sub rv d2">Po vašem boku v první linii.</p>
@@ -2588,120 +2709,44 @@
     </section>
 
     <!-- ================================================================
-         SOLUTION — PO VAŠEM BOKU PŘEVEZMEME
+         SOLUTION — SCROLL-DRIVEN HIGHLIGHT
     ================================================================ -->
-    <section class="sec-sol" aria-labelledby="sol-h">
-      <div class="container">
-
-        <div class="sol-hdr">
-          <div class="eyebrow rv">Řešení</div>
-          <h2 class="sec-h rv d1" id="sol-h">Zastavíme skryté ztráty, ať můžete<br><em>znovu klidně spát</em></h2>
-        </div>
-
-        <div class="sol-grid">
-
-          <div class="sol-card rv d1">
-            <div class="sol-ico">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
+    <section class="sec-sol" aria-labelledby="sol-h" id="sec-sol">
+      <div class="sol-scroller" id="sol-scroller">
+        <div class="sol-sticky" id="sol-sticky">
+          <div class="sol-ambient-num" id="sol-ambient-num" aria-hidden="true">01</div>
+          <div class="container">
+            <div class="sol-inner">
+              <div class="sol-hdr-inline">
+                <div class="eyebrow rv">Řešení</div>
+                <h2 class="sol-h2 rv d1" id="sol-h">Řešení je jednoduché</h2>
+              </div>
+              <ol class="sol-list" id="sol-list" aria-label="Naše řešení">
+                <li class="sol-item">
+                  <span class="sol-num">01</span>
+                  <span class="sol-q">Zastavíme skryté ztráty, ať můžete znovu klidně <em>spát</em></span>
+                </li>
+                <li class="sol-item">
+                  <span class="sol-num">02</span>
+                  <span class="sol-q">Komunikaci s úřady, bankami i institucemi <em>převezmeme za vás</em></span>
+                </li>
+                <li class="sol-item">
+                  <span class="sol-num">03</span>
+                  <span class="sol-q">Nastavíme systém, ve kterém lidé převezmou odpovědnost a vy získáte prostor firmu
+                    znovu <em>posouvat</em></span>
+                </li>
+                <li class="sol-item">
+                  <span class="sol-num">04</span>
+                  <span class="sol-q">Odpovědnost poneseme s vámi, abyste se mohli znovu <em>těšit do práce</em></span>
+                </li>
+                <li class="sol-item">
+                  <span class="sol-num">05</span>
+                  <span class="sol-q">Převezmeme každodenní exekutivu, abyste mohli být znovu <em>majitel, ne věčný
+                      operativec</em></span>
+                </li>
+              </ol>
             </div>
-            <div class="sol-area">Systém a odpovědnost lidí</div>
-            <p class="sol-desc">Nastavíme systém, ve kterém lidé převezmou odpovědnost a vy získáte prostor firmu znovu
-              posouvat.</p>
           </div>
-
-          <div class="sol-card rv d2">
-            <div class="sol-ico">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                <polyline points="9 12 11 14 15 10" />
-              </svg>
-            </div>
-            <div class="sol-area">Odpovědnost neseme s vámi</div>
-            <p class="sol-desc">Odpovědnost poneseme s vámi, abyste se mohli znovu těšit do práce.</p>
-          </div>
-
-          <div class="sol-card rv d3">
-            <div class="sol-ico">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                stroke-linejoin="round">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-              </svg>
-            </div>
-            <div class="sol-area">Každodenní exekutiva</div>
-            <p class="sol-desc">Převezmeme každodenní exekutivu, abyste mohli být znovu majitel, ne věčný operativec.
-            </p>
-          </div>
-
-          <div class="sol-card rv d4">
-            <div class="sol-ico">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                stroke-linejoin="round">
-                <rect x="2" y="3" width="20" height="14" rx="2" />
-                <line x1="8" y1="21" x2="16" y2="21" />
-                <line x1="12" y1="17" x2="12" y2="21" />
-              </svg>
-            </div>
-            <div class="sol-area">Komunikace s úřady</div>
-            <p class="sol-desc">Komunikaci s úřady, bankami i institucemi převezmeme za vás.</p>
-          </div>
-
-        </div>
-
-        <!-- Featured closer -->
-
-      </div>
-    </section>
-
-    <!-- ================================================================
-         BANNER
-    ================================================================ -->
-    <section class="sec-banner" aria-label="Hlavní přínos">
-      <div class="container">
-        <div class="banner-in rv">
-          <p class="banner-h">
-            <span class="bw">Jste</span>
-            <span class="bw">podnikatel,</span>
-            <em><span class="bw">dělejte</span>
-              <span class="bw">strategická</span>
-              <span class="bw">rozhodnutí.</span></em>
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================================================================
-         PROMISE
-    ================================================================ -->
-    <section class="sec-promise" aria-labelledby="promise-h">
-      <video class="promise-video" autoplay muted loop playsinline aria-hidden="true">
-        <source src="vids/6.mp4" type="video/mp4">
-      </video>
-      <div class="promise-ov" aria-hidden="true"></div>
-      <div class="container">
-        <div class="promise-center">
-          <div class="eyebrow rv">Náš závazek</div>
-          <h2 class="promise-quote rv d1" id="promise-h">
-            Úspěch vaší firmy je <em>i naším úspěchem.</em>
-          </h2>
-          <p class="promise-body rv d2">
-            Za naši práci platíte pouze z toho, co vám prokazatelně pomůžeme vydělat.
-          </p>
-          <a href="#sec-quiz" class="btn btn-primary btn-lg rv d3">
-            Víte jak na tom jste?
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </a>
         </div>
       </div>
     </section>
@@ -2764,6 +2809,139 @@
           </div>
 
         </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         BANNER
+    ================================================================ -->
+    <section class="sec-banner" aria-label="Hlavní přínos">
+      <div class="container">
+        <div class="banner-in rv">
+          <p class="banner-h">
+            <span class="bw">Jste</span>
+            <span class="bw">podnikatel,</span>
+            <em><span class="bw">dělejte</span>
+              <span class="bw">strategická</span>
+              <span class="bw">rozhodnutí.</span></em>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         PROMISE
+    ================================================================ -->
+    <section class="sec-promise" aria-labelledby="promise-h">
+      <video class="promise-video" autoplay muted loop playsinline aria-hidden="true">
+        <source src="vids/6.mp4" type="video/mp4">
+      </video>
+      <div class="promise-ov" aria-hidden="true"></div>
+      <div class="container">
+        <div class="promise-center">
+          <div class="eyebrow rv">Náš závazek</div>
+          <h2 class="promise-quote rv d1" id="promise-h">
+            Úspěch vaší firmy je <em>i naším úspěchem.</em>
+          </h2>
+          <p class="promise-body rv d2">
+            Za naši práci platíte pouze z toho, co vám prokazatelně pomůžeme vydělat.
+          </p>
+          <a href="#sec-quiz" class="btn btn-primary btn-lg rv d3">
+            Víte jak na tom jste?
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         FAQ
+    ================================================================ -->
+    <section class="sec-faq" aria-labelledby="faq-h" id="sec-faq">
+      <div class="container">
+        <div class="faq-hdr">
+          <div class="eyebrow rv">FAQ</div>
+          <h2 class="faq-h rv d1" id="faq-h">Nejčastější <em>otázky</em></h2>
+        </div>
+        <dl class="faq-list rv d2">
+
+          <div class="faq-item">
+            <dt>
+              <button class="faq-q" aria-expanded="false">
+                Jak rychle uvidíme první výsledky?
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </dt>
+            <dd class="faq-a">
+              <div class="faq-a-inner">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+            </dd>
+          </div>
+
+          <div class="faq-item">
+            <dt>
+              <button class="faq-q" aria-expanded="false">
+                Jak probíhá spolupráce v praxi?
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </dt>
+            <dd class="faq-a">
+              <div class="faq-a-inner">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+            </dd>
+          </div>
+
+          <div class="faq-item">
+            <dt>
+              <button class="faq-q" aria-expanded="false">
+                Kolik to stojí a jak funguje odměna?
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </dt>
+            <dd class="faq-a">
+              <div class="faq-a-inner">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae.</div>
+            </dd>
+          </div>
+
+          <div class="faq-item">
+            <dt>
+              <button class="faq-q" aria-expanded="false">
+                Musím firmě předat kontrolu?
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </dt>
+            <dd class="faq-a">
+              <div class="faq-a-inner">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</div>
+            </dd>
+          </div>
+
+          <div class="faq-item">
+            <dt>
+              <button class="faq-q" aria-expanded="false">
+                Pro jak velké firmy jste vhodní?
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </dt>
+            <dd class="faq-a">
+              <div class="faq-a-inner">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</div>
+            </dd>
+          </div>
+
+          <div class="faq-item">
+            <dt>
+              <button class="faq-q" aria-expanded="false">
+                Co se stane, pokud spolupráce nefunguje?
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </dt>
+            <dd class="faq-a">
+              <div class="faq-a-inner">Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus.</div>
+            </dd>
+          </div>
+
+        </dl>
       </div>
     </section>
 
@@ -2929,6 +3107,52 @@
     })();
 
     /* ════════════════════════════════════════════════════════
+       2b. SOLUTION — scroll-driven highlight
+    ════════════════════════════════════════════════════════ */
+    (function () {
+      const items = Array.from(document.querySelectorAll('.sol-item'));
+      const scroller = document.getElementById('sol-scroller');
+      const sticky = document.getElementById('sol-sticky');
+      const ambientNum = document.getElementById('sol-ambient-num');
+      if (!items.length || !scroller) return;
+
+      let lastLit = -1, entered = false;
+
+      const entryObs = new IntersectionObserver(entries => {
+        if (!entries[0].isIntersecting || entered) return;
+        entered = true;
+        entryObs.disconnect();
+        items.forEach(item => item.classList.add('entered'));
+        updateSolLit();
+      }, { threshold: .1 });
+      entryObs.observe(sticky);
+
+      function updateSolLit() {
+        const rect = scroller.getBoundingClientRect();
+        const scrollable = scroller.offsetHeight - window.innerHeight;
+        if (scrollable <= 0) return;
+
+        const progress = Math.max(0, Math.min(1, -rect.top / scrollable));
+        const litIdx = Math.min(Math.floor(progress * items.length), items.length - 1);
+
+        if (litIdx === lastLit) return;
+        items.forEach((item, i) => item.classList.toggle('lit', i === litIdx));
+        if (ambientNum) {
+          var nextNum = String(litIdx + 1).padStart(2, '0');
+          ambientNum.style.animation = 'painNumOut .28s cubic-bezier(.4,0,.2,1) both';
+          clearTimeout(ambientNum._t);
+          ambientNum._t = setTimeout(function () {
+            ambientNum.textContent = nextNum;
+            ambientNum.style.animation = 'painNumIn .45s cubic-bezier(.16,1,.3,1) both';
+          }, 240);
+        }
+        lastLit = litIdx;
+      }
+
+      window.addEventListener('scroll', updateSolLit, { passive: true });
+    })();
+
+    /* ════════════════════════════════════════════════════════
        3. QUIZ REVEAL BUTTON
     ════════════════════════════════════════════════════════ */
     (function () {
@@ -3036,15 +3260,15 @@
         score.textContent = ano;
 
         if (ano <= 1) {
-          heading.textContent = 'Situace vypadá stabilně.';
-          text.textContent = 'Zdá se, že máte firmu relativně pod kontrolou. I tak může být přínosné probrat, co vás čeká dál.';
+          heading.textContent = 'Firma je teď pod kontrolou.';
+          text.textContent = 'Vypadá to, že firma funguje stabilně. I tak často pomůže podívat se zvenčí na to, co může v budoucnu začít brzdit růst. 30 minut rozhovoru vám dodá větší klid i jistotu, že jdete správným směrem.';
         } else if (ano <= 4) {
-          heading.textContent = 'Signály jsou viditelné.';
-          text.textContent = 'Čas jednat dřív, než se situace zkomplikuje. 30 minut konzultace může hodně ozřejmit.';
+          heading.textContent = 'Firma začíná narážet na své limity.';
+          text.textContent = 'Některé věci už možná stojí zbytečně moc energie. Rozhodnutí se vrací zpátky k majiteli, firma začíná ztrácet lehkost a každodenní operativa bere stále víc prostoru. Čím dřív se podobné situace pojmenují, tím jednodušší bývá jejich řešení.';
           result.style.setProperty('--result-accent', 'rgba(234,91,12,.3)');
         } else {
-          heading.textContent = 'Situace vyžaduje pozornost.';
-          text.textContent = 'Každý den navíc zvyšuje cenu za změnu. Nezávazný hovor nezavazuje k ničemu, ale může změnit hodně.';
+          heading.textContent = 'Tlak už přestává být udržitelný.';
+          text.textContent = 'Dlouhodobě se takhle fungovat nedá. Ať už jde o finance, lidi, operativu nebo těžká rozhodnutí, není potřeba nést všechno jen vlastními silami. Často stačí jeden otevřený rozhovor, aby člověk po dlouhé době zase viděl cestu ven.';
           result.style.boxShadow = '0 0 0 1px rgba(234,91,12,.3), 0 32px 80px rgba(0,0,0,.55), 0 0 60px rgba(234,91,12,.1)';
         }
 
@@ -3066,6 +3290,33 @@
         sent.classList.add('visible');
       }, 800);
     }
+
+    /* ════════════════════════════════════════════════════════
+       3b. FAQ ACCORDION
+    ════════════════════════════════════════════════════════ */
+    (function () {
+      document.querySelectorAll('.faq-q').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const dd = btn.closest('.faq-item').querySelector('.faq-a');
+          const isOpen = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!isOpen));
+          if (isOpen) {
+            dd.style.maxHeight = dd.scrollHeight + 'px';
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () {
+                dd.style.maxHeight = '0';
+              });
+            });
+          } else {
+            dd.style.maxHeight = dd.scrollHeight + 'px';
+            dd.addEventListener('transitionend', function done() {
+              dd.style.maxHeight = 'none';
+              dd.removeEventListener('transitionend', done);
+            });
+          }
+        });
+      });
+    })();
 
     /* ════════════════════════════════════════════════════════
        4. SCROLL REVEAL
